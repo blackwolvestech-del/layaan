@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-GB" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem("layaan-theme");
+          var dark = s === "dark" || (s !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+          var r = document.documentElement;
+          r.dataset.theme = dark ? "dark" : "light";
+          r.style.colorScheme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="theme-color" content="#FBF7F0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#15120E" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="/images/brand/favicon-64.png" />
+    <link rel="apple-touch-icon" href="/images/brand/apple-touch-icon.png" />
+    <title>LAYAAN Atelier — Contemporary Western Womenswear</title>
+    <meta name="description" content="LAYAAN Atelier: contemporary Western womenswear — refined tailoring, coordinated sets and statement sleeves for everyday-to-occasion dressing." />
+    <!-- Design demo for client approval: keep out of search indexes. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:title" content="LAYAAN Atelier — Contemporary Western Womenswear" />
+    <meta property="og:description" content="Refined tailoring, coordinated sets and statement sleeves." />
+    <meta property="og:image" content="/images/brand/logo-square-512.jpg" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p style="padding: 2rem; font-family: Georgia, serif">LAYAAN Atelier — contemporary Western womenswear. Please enable JavaScript to view this demo.</p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

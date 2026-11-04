@@ -1,0 +1,1990 @@
+{
+  "generatedAt": "2026-09-28T15:44:25.764Z",
+  "note": "Product groupings, working names, and descriptions are provisional visual descriptions pending approval by LAYAAN Atelier.",
+  "widths": [
+    480,
+    800,
+    1200,
+    1800
+  ],
+  "formats": [
+    "avif",
+    "webp",
+    "jpg@1200"
+  ],
+  "categories": [
+    {
+      "key": "suits-co-ords",
+      "name": "Suits & Co-ords"
+    },
+    {
+      "key": "tops-blouses",
+      "name": "Tops & Blouses"
+    },
+    {
+      "key": "longline-styles",
+      "name": "Dresses & Longline Styles"
+    }
+  ],
+  "collections": [
+    {
+      "key": "tailoring",
+      "name": "Blazers & Tailoring"
+    },
+    {
+      "key": "statement-sleeves",
+      "name": "Statement Sleeves"
+    },
+    {
+      "key": "occasion",
+      "name": "Occasion Dressing"
+    },
+    {
+      "key": "everyday-to-evening",
+      "name": "Everyday to Evening"
+    }
+  ],
+  "looks": [
+    {
+      "key": "magenta-satin-button-jacket",
+      "workingName": "Magenta Satin Button Jacket",
+      "colour": "Magenta",
+      "category": "tops-blouses",
+      "collections": [
+        "statement-sleeves",
+        "everyday-to-evening"
+      ],
+      "visual": "Magenta satin jacket-top with a notched V neckline, a fine row of covered buttons, patch pockets and gathered cuffs, styled over ivory wide-leg trousers.",
+      "pieces": [
+        "Jacket top"
+      ],
+      "unconfirmedPieces": [
+        "Ivory wide-leg trousers shown in styling"
+      ],
+      "stylingProps": [
+        "Earrings",
+        "Heels"
+      ],
+      "backdrop": "warm beige studio",
+      "primary": "DSC09821.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC09821.jpg",
+          "file": "DSC09821.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [
+            "home.lookbook"
+          ],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09821-6f8c50d2",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "6f8c50d2"
+        },
+        {
+          "source": "assets/source/photos/DSC09823.jpg",
+          "file": "DSC09823.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09823-f0392aee",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "f0392aee"
+        },
+        {
+          "source": "assets/source/photos/DSC09835.jpg",
+          "file": "DSC09835.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 2,
+          "alt": "Full-length view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09835-a5e203fe",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#d8b898",
+          "sha1": "a5e203fe"
+        },
+        {
+          "source": "assets/source/photos/DSC09837.jpg",
+          "file": "DSC09837.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 3,
+          "alt": "Close-up detail of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09837-188a9433",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#480818",
+          "sha1": "188a9433"
+        },
+        {
+          "source": "assets/source/photos/DSC09838(1).jpg",
+          "file": "DSC09838(1).jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 4,
+          "alt": "Close portrait of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09838-1-ed34a5b4",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "ed34a5b4"
+        },
+        {
+          "source": "assets/source/photos/DSC09847.jpg",
+          "file": "DSC09847.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 5,
+          "alt": "Three-quarter view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09847-b939c426",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "b939c426"
+        },
+        {
+          "source": "assets/source/photos/DSC09849.jpg",
+          "file": "DSC09849.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 6,
+          "alt": "Three-quarter view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09849-1b7d967f",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c89878",
+          "sha1": "1b7d967f"
+        },
+        {
+          "source": "assets/source/photos/DSC09852.jpg",
+          "file": "DSC09852.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 7,
+          "alt": "Three-quarter view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09852-2e303594",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b89878",
+          "sha1": "2e303594"
+        },
+        {
+          "source": "assets/source/photos/DSC09855(1).jpg",
+          "file": "DSC09855(1).jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 8,
+          "alt": "Three-quarter view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09855-1-d8351a98",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b89878",
+          "sha1": "d8351a98"
+        },
+        {
+          "source": "assets/source/photos/DSC09856.jpg",
+          "file": "DSC09856.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 9,
+          "alt": "Three-quarter view of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09856-03a1575a",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b89878",
+          "sha1": "03a1575a"
+        },
+        {
+          "source": "assets/source/photos/DSC09858.jpg",
+          "file": "DSC09858.jpg",
+          "view": "side",
+          "primary": false,
+          "position": 10,
+          "alt": "Side profile of the magenta satin button jacket — magenta, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/magenta-satin-button-jacket/dsc09858-b2ca8412",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "b2ca8412"
+        }
+      ]
+    },
+    {
+      "key": "crimson-belted-satin-co-ord",
+      "workingName": "Crimson Belted Satin Co-ord",
+      "colour": "Crimson",
+      "category": "suits-co-ords",
+      "collections": [
+        "statement-sleeves",
+        "occasion"
+      ],
+      "visual": "Deep red satin wrap-front top with wide bell sleeves and a broad sash belt, paired with matching straight-leg trousers.",
+      "pieces": [
+        "Wrap top",
+        "Belt",
+        "Trousers"
+      ],
+      "unconfirmedPieces": [
+        "Whether the belt is detachable"
+      ],
+      "stylingProps": [
+        "Handbag",
+        "Heels"
+      ],
+      "backdrop": "warm beige studio",
+      "primary": "DSC09865(1).jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC09865(1).jpg",
+          "file": "DSC09865(1).jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09865-1-c93dc9df",
+          "width": 3374,
+          "height": 5746,
+          "placeholder": "#c8a888",
+          "sha1": "c93dc9df"
+        },
+        {
+          "source": "assets/source/photos/DSC09867.jpg",
+          "file": "DSC09867.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09867-99513d2a",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "99513d2a"
+        },
+        {
+          "source": "assets/source/photos/DSC09874.jpg",
+          "file": "DSC09874.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 2,
+          "alt": "Three-quarter view of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [
+            "collection.cover.statement-sleeves",
+            "home.bento"
+          ],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09874-698dacb6",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "698dacb6"
+        },
+        {
+          "source": "assets/source/photos/DSC09875.jpg",
+          "file": "DSC09875.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 3,
+          "alt": "Three-quarter view of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09875-f7fd8e81",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "f7fd8e81"
+        },
+        {
+          "source": "assets/source/photos/DSC09877.jpg",
+          "file": "DSC09877.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 4,
+          "alt": "Three-quarter view of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09877-e6d5cec2",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "e6d5cec2"
+        },
+        {
+          "source": "assets/source/photos/DSC09882.jpg",
+          "file": "DSC09882.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 5,
+          "alt": "Three-quarter view of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09882-af32a444",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "af32a444"
+        },
+        {
+          "source": "assets/source/photos/DSC09884.jpg",
+          "file": "DSC09884.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 6,
+          "alt": "Three-quarter view of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09884-c9048e62",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "c9048e62"
+        },
+        {
+          "source": "assets/source/photos/DSC09888.jpg",
+          "file": "DSC09888.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 7,
+          "alt": "Close-up detail of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09888-157247a0",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#680808",
+          "sha1": "157247a0"
+        },
+        {
+          "source": "assets/source/photos/DSC09899.jpg",
+          "file": "DSC09899.jpg",
+          "view": "movement",
+          "primary": false,
+          "position": 8,
+          "alt": "Movement shot of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09899-76de8dcd",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c89878",
+          "sha1": "76de8dcd"
+        },
+        {
+          "source": "assets/source/photos/DSC09925.jpg",
+          "file": "DSC09925.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 9,
+          "alt": "Seated pose of the crimson belted satin co-ord — crimson, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/crimson-belted-satin-co-ord/dsc09925-017af5b4",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "017af5b4"
+        }
+      ]
+    },
+    {
+      "key": "teal-statement-sleeve-suit",
+      "workingName": "Teal Statement-Sleeve Trouser Suit",
+      "colour": "Teal",
+      "category": "suits-co-ords",
+      "collections": [
+        "tailoring",
+        "statement-sleeves",
+        "occasion"
+      ],
+      "visual": "Teal satin single-button blazer with sculpted puff sleeves and a sharp shawl lapel, worn with matching wide-leg trousers.",
+      "pieces": [
+        "Blazer",
+        "Wide-leg trousers"
+      ],
+      "unconfirmedPieces": [
+        "Black inner top shown in styling"
+      ],
+      "stylingProps": [
+        "Earrings",
+        "Rings"
+      ],
+      "backdrop": "warm beige studio",
+      "primary": "DSC09946.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC09946.jpg",
+          "file": "DSC09946.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [
+            "home.hero"
+          ],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09946-104a0178",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "104a0178"
+        },
+        {
+          "source": "assets/source/photos/DSC00011.jpg",
+          "file": "DSC00011.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc00011-e86cfc7b",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "e86cfc7b"
+        },
+        {
+          "source": "assets/source/photos/DSC09955.jpg",
+          "file": "DSC09955.jpg",
+          "view": "side",
+          "primary": false,
+          "position": 2,
+          "alt": "Side profile of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09955-59c868ac",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "59c868ac"
+        },
+        {
+          "source": "assets/source/photos/DSC09959.jpg",
+          "file": "DSC09959.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 3,
+          "alt": "Seated pose of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09959-e72b5946",
+          "width": 3262,
+          "height": 5653,
+          "placeholder": "#d8a888",
+          "sha1": "e72b5946"
+        },
+        {
+          "source": "assets/source/photos/DSC09960.jpg",
+          "file": "DSC09960.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 4,
+          "alt": "Seated pose of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09960-9622be70",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#d8a888",
+          "sha1": "9622be70"
+        },
+        {
+          "source": "assets/source/photos/DSC09963.jpg",
+          "file": "DSC09963.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 5,
+          "alt": "Seated pose of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09963-1aaf5350",
+          "width": 3396,
+          "height": 5990,
+          "placeholder": "#c8a888",
+          "sha1": "1aaf5350"
+        },
+        {
+          "source": "assets/source/photos/DSC09965.jpg",
+          "file": "DSC09965.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 6,
+          "alt": "Seated pose of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09965-1358e1ce",
+          "width": 3294,
+          "height": 5583,
+          "placeholder": "#c8a888",
+          "sha1": "1358e1ce"
+        },
+        {
+          "source": "assets/source/photos/DSC09967.jpg",
+          "file": "DSC09967.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 7,
+          "alt": "Close-up detail of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09967-02748be3",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b89878",
+          "sha1": "02748be3"
+        },
+        {
+          "source": "assets/source/photos/DSC09980.jpg",
+          "file": "DSC09980.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 8,
+          "alt": "Close portrait of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09980-e1a45654",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c8a888",
+          "sha1": "e1a45654"
+        },
+        {
+          "source": "assets/source/photos/DSC09994.jpg",
+          "file": "DSC09994.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 9,
+          "alt": "Close portrait of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc09994-b185ca4b",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#083838",
+          "sha1": "b185ca4b"
+        },
+        {
+          "source": "assets/source/photos/DSC00005.jpg",
+          "file": "DSC00005.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 10,
+          "alt": "Close portrait of the teal statement-sleeve trouser suit — teal, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/teal-statement-sleeve-suit/dsc00005-c5300a19",
+          "width": 3134,
+          "height": 5620,
+          "placeholder": "#d8b898",
+          "sha1": "c5300a19"
+        }
+      ]
+    },
+    {
+      "key": "ivory-longline-coat-gold-fastenings",
+      "workingName": "Ivory Longline Coat with Gold-Tone Fastenings",
+      "colour": "Ivory",
+      "category": "longline-styles",
+      "collections": [
+        "occasion"
+      ],
+      "visual": "Ivory longline coat with a collarless neckline and sculptural gold-tone buttons down the front, styled with a fringed ivory scarf.",
+      "pieces": [
+        "Longline coat"
+      ],
+      "unconfirmedPieces": [
+        "Fringed scarf shown in styling"
+      ],
+      "stylingProps": [
+        "Earrings"
+      ],
+      "backdrop": "green textured backdrop",
+      "primary": "DSC00047.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00047.jpg",
+          "file": "DSC00047.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the ivory longline coat with gold-tone fastenings — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-longline-coat-gold-fastenings/dsc00047-f4a79fea",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#786828",
+          "sha1": "f4a79fea"
+        },
+        {
+          "source": "assets/source/photos/DSC00070.jpg",
+          "file": "DSC00070.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the ivory longline coat with gold-tone fastenings — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-longline-coat-gold-fastenings/dsc00070-b6e48255",
+          "width": 3480,
+          "height": 5861,
+          "placeholder": "#887838",
+          "sha1": "b6e48255"
+        },
+        {
+          "source": "assets/source/photos/DSC00051.jpg",
+          "file": "DSC00051.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 2,
+          "alt": "Three-quarter view of the ivory longline coat with gold-tone fastenings — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-longline-coat-gold-fastenings/dsc00051-0eb24cfd",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#887838",
+          "sha1": "0eb24cfd"
+        },
+        {
+          "source": "assets/source/photos/DSC00064.jpg",
+          "file": "DSC00064.jpg",
+          "view": "movement",
+          "primary": false,
+          "position": 3,
+          "alt": "Movement shot of the ivory longline coat with gold-tone fastenings — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-longline-coat-gold-fastenings/dsc00064-310c4196",
+          "width": 3301,
+          "height": 5874,
+          "placeholder": "#d8b898",
+          "sha1": "310c4196"
+        },
+        {
+          "source": "assets/source/photos/DSC00089.jpg",
+          "file": "DSC00089.jpg",
+          "view": "movement",
+          "primary": false,
+          "position": 4,
+          "alt": "Movement shot of the ivory longline coat with gold-tone fastenings — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-longline-coat-gold-fastenings/dsc00089-fccc705e",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#786828",
+          "sha1": "fccc705e"
+        }
+      ]
+    },
+    {
+      "key": "sage-satin-jacket-skirt-set",
+      "workingName": "Sage Satin Jacket & Skirt Set",
+      "colour": "Sage",
+      "category": "suits-co-ords",
+      "collections": [
+        "tailoring",
+        "everyday-to-evening"
+      ],
+      "visual": "Sage-green satin collarless jacket with a curved hem, a pearl-button placket and a chest pocket, paired with a matching column skirt.",
+      "pieces": [
+        "Jacket",
+        "Column skirt"
+      ],
+      "unconfirmedPieces": [],
+      "stylingProps": [
+        "Heels",
+        "Ring"
+      ],
+      "backdrop": "green textured backdrop",
+      "primary": "DSC00098.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00098.jpg",
+          "file": "DSC00098.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the sage satin jacket & skirt set — sage, photographed against a green textured backdrop.",
+          "placements": [
+            "home.lookbook"
+          ],
+          "basePath": "/images/products/sage-satin-jacket-skirt-set/dsc00098-62a5d5c2",
+          "width": 3401,
+          "height": 5875,
+          "placeholder": "#886818",
+          "sha1": "62a5d5c2"
+        },
+        {
+          "source": "assets/source/photos/DSC00101.jpg",
+          "file": "DSC00101.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the sage satin jacket & skirt set — sage, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/sage-satin-jacket-skirt-set/dsc00101-ecc01d6a",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "ecc01d6a"
+        },
+        {
+          "source": "assets/source/photos/DSC00102(1).jpg",
+          "file": "DSC00102(1).jpg",
+          "view": "full",
+          "primary": false,
+          "position": 2,
+          "alt": "Full-length view of the sage satin jacket & skirt set — sage, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/sage-satin-jacket-skirt-set/dsc00102-1-69429944",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "69429944"
+        },
+        {
+          "source": "assets/source/photos/DSC00106.jpg",
+          "file": "DSC00106.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 3,
+          "alt": "Full-length view of the sage satin jacket & skirt set — sage, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/sage-satin-jacket-skirt-set/dsc00106-fbc86220",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#a88838",
+          "sha1": "fbc86220"
+        },
+        {
+          "source": "assets/source/photos/DSC00127.jpg",
+          "file": "DSC00127.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 4,
+          "alt": "Three-quarter view of the sage satin jacket & skirt set — sage, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/sage-satin-jacket-skirt-set/dsc00127-74819792",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "74819792"
+        },
+        {
+          "source": "assets/source/photos/DSC00135.jpg",
+          "file": "DSC00135.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 5,
+          "alt": "Close-up detail of the sage satin jacket & skirt set — sage, photographed against a green textured backdrop.",
+          "placements": [
+            "home.bento.detail"
+          ],
+          "basePath": "/images/products/sage-satin-jacket-skirt-set/dsc00135-7a6d75ad",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#887838",
+          "sha1": "7a6d75ad"
+        },
+        {
+          "source": "assets/source/photos/DSC00136.jpg",
+          "file": "DSC00136.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 6,
+          "alt": "Close-up detail of the sage satin jacket & skirt set — sage, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/sage-satin-jacket-skirt-set/dsc00136-a305ab9f",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "a305ab9f"
+        }
+      ]
+    },
+    {
+      "key": "ivory-pinstripe-suit",
+      "workingName": "Ivory Pinstripe Suit",
+      "colour": "Ivory",
+      "category": "suits-co-ords",
+      "collections": [
+        "tailoring",
+        "everyday-to-evening"
+      ],
+      "visual": "Ivory pinstripe single-breasted longline blazer with patch pockets and matching straight-leg trousers.",
+      "pieces": [
+        "Blazer",
+        "Straight-leg trousers"
+      ],
+      "unconfirmedPieces": [
+        "White inner T-shirt shown in styling"
+      ],
+      "stylingProps": [
+        "Handbag",
+        "Loafers"
+      ],
+      "backdrop": "green textured backdrop",
+      "primary": "DSC00252.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00252.jpg",
+          "file": "DSC00252.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [
+            "collection.cover.tailoring"
+          ],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00252-7478755a",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "7478755a"
+        },
+        {
+          "source": "assets/source/photos/DSC00239.jpg",
+          "file": "DSC00239.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00239-bb27dc03",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "bb27dc03"
+        },
+        {
+          "source": "assets/source/photos/DSC00241.jpg",
+          "file": "DSC00241.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 2,
+          "alt": "Three-quarter view of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00241-1520d3c6",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "1520d3c6"
+        },
+        {
+          "source": "assets/source/photos/DSC00244(1).jpg",
+          "file": "DSC00244(1).jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 3,
+          "alt": "Three-quarter view of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00244-1-046df03e",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "046df03e"
+        },
+        {
+          "source": "assets/source/photos/DSC00245.jpg",
+          "file": "DSC00245.jpg",
+          "view": "side",
+          "primary": false,
+          "position": 4,
+          "alt": "Side profile of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00245-65975190",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "65975190"
+        },
+        {
+          "source": "assets/source/photos/DSC00255.jpg",
+          "file": "DSC00255.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 5,
+          "alt": "Close-up detail of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00255-cc35a728",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "cc35a728"
+        },
+        {
+          "source": "assets/source/photos/DSC00257.jpg",
+          "file": "DSC00257.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 6,
+          "alt": "Close-up detail of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00257-77793ac2",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#d8a878",
+          "sha1": "77793ac2"
+        },
+        {
+          "source": "assets/source/photos/DSC00259.jpg",
+          "file": "DSC00259.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 7,
+          "alt": "Three-quarter view of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00259-7a920935",
+          "width": 3306,
+          "height": 5872,
+          "placeholder": "#987828",
+          "sha1": "7a920935"
+        },
+        {
+          "source": "assets/source/photos/DSC00268.jpg",
+          "file": "DSC00268.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 8,
+          "alt": "Three-quarter view of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00268-d49c89fd",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "d49c89fd"
+        },
+        {
+          "source": "assets/source/photos/DSC00272.jpg",
+          "file": "DSC00272.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 9,
+          "alt": "Three-quarter view of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00272-abe4d31c",
+          "width": 3325,
+          "height": 5810,
+          "placeholder": "#987828",
+          "sha1": "abe4d31c"
+        },
+        {
+          "source": "assets/source/photos/DSC00275.jpg",
+          "file": "DSC00275.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 10,
+          "alt": "Close-up detail of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00275-f2f984d0",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c89868",
+          "sha1": "f2f984d0"
+        },
+        {
+          "source": "assets/source/photos/DSC00285.jpg",
+          "file": "DSC00285.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 11,
+          "alt": "Close portrait of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00285-1042007b",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "1042007b"
+        },
+        {
+          "source": "assets/source/photos/DSC00291.jpg",
+          "file": "DSC00291.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 12,
+          "alt": "Seated pose of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00291-d8760b70",
+          "width": 3379,
+          "height": 6012,
+          "placeholder": "#987828",
+          "sha1": "d8760b70"
+        },
+        {
+          "source": "assets/source/photos/DSC00297.jpg",
+          "file": "DSC00297.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 13,
+          "alt": "Seated pose of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00297-158651fa",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "158651fa"
+        },
+        {
+          "source": "assets/source/photos/DSC00312.jpg",
+          "file": "DSC00312.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 14,
+          "alt": "Seated pose of the ivory pinstripe suit — ivory, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/ivory-pinstripe-suit/dsc00312-660d44d8",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "660d44d8"
+        }
+      ]
+    },
+    {
+      "key": "rust-jacket-wide-leg-trousers",
+      "workingName": "Rust Jacket & Wide-Leg Trousers",
+      "colour": "Rust",
+      "category": "suits-co-ords",
+      "collections": [
+        "statement-sleeves",
+        "everyday-to-evening"
+      ],
+      "visual": "Rust open-front jacket with gathered shoulders and deep turn-back cuffs, paired with high-waisted wide-leg trousers.",
+      "pieces": [
+        "Jacket",
+        "Wide-leg trousers"
+      ],
+      "unconfirmedPieces": [
+        "Black inner top shown in styling"
+      ],
+      "stylingProps": [
+        "Ring"
+      ],
+      "backdrop": "green textured backdrop",
+      "primary": "DSC00354.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00354.jpg",
+          "file": "DSC00354.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the rust jacket & wide-leg trousers — rust, photographed against a green textured backdrop.",
+          "placements": [
+            "home.lookbook"
+          ],
+          "basePath": "/images/products/rust-jacket-wide-leg-trousers/dsc00354-342bcfca",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#a88838",
+          "sha1": "342bcfca"
+        },
+        {
+          "source": "assets/source/photos/DSC00356.jpg",
+          "file": "DSC00356.jpg",
+          "view": "side",
+          "primary": false,
+          "position": 1,
+          "alt": "Side profile of the rust jacket & wide-leg trousers — rust, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/rust-jacket-wide-leg-trousers/dsc00356-d0022f9f",
+          "width": 3445,
+          "height": 5876,
+          "placeholder": "#a88838",
+          "sha1": "d0022f9f"
+        },
+        {
+          "source": "assets/source/photos/DSC00349.jpg",
+          "file": "DSC00349.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 2,
+          "alt": "Three-quarter view of the rust jacket & wide-leg trousers — rust, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/rust-jacket-wide-leg-trousers/dsc00349-44fa1572",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#987828",
+          "sha1": "44fa1572"
+        },
+        {
+          "source": "assets/source/photos/DSC00362.jpg",
+          "file": "DSC00362.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 3,
+          "alt": "Close portrait of the rust jacket & wide-leg trousers — rust, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/rust-jacket-wide-leg-trousers/dsc00362-979378b5",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#a88838",
+          "sha1": "979378b5"
+        },
+        {
+          "source": "assets/source/photos/DSC00368.jpg",
+          "file": "DSC00368.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 4,
+          "alt": "Three-quarter view of the rust jacket & wide-leg trousers — rust, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/rust-jacket-wide-leg-trousers/dsc00368-b47dd1fe",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#a88828",
+          "sha1": "b47dd1fe"
+        },
+        {
+          "source": "assets/source/photos/DSC00378.jpg",
+          "file": "DSC00378.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 5,
+          "alt": "Seated pose of the rust jacket & wide-leg trousers — rust, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/rust-jacket-wide-leg-trousers/dsc00378-ba10346c",
+          "width": 3335,
+          "height": 5662,
+          "placeholder": "#b89838",
+          "sha1": "ba10346c"
+        }
+      ]
+    },
+    {
+      "key": "beige-layered-trouser-set",
+      "workingName": "Beige Layered Trouser Set",
+      "colour": "Beige",
+      "category": "suits-co-ords",
+      "collections": [
+        "everyday-to-evening"
+      ],
+      "visual": "Beige longline blazer with patch pockets layered over a matching top and relaxed straight-leg trousers.",
+      "pieces": [
+        "Longline blazer",
+        "Top",
+        "Trousers"
+      ],
+      "unconfirmedPieces": [
+        "Whether the top is sold with the set"
+      ],
+      "stylingProps": [
+        "Clutch",
+        "Handbag",
+        "Loafers"
+      ],
+      "backdrop": "green textured backdrop",
+      "primary": "DSC00442.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00442.jpg",
+          "file": "DSC00442.jpg",
+          "view": "three-quarter",
+          "primary": true,
+          "position": 0,
+          "alt": "Three-quarter view of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00442-d56380eb",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#785808",
+          "sha1": "d56380eb"
+        },
+        {
+          "source": "assets/source/photos/DSC00425.jpg",
+          "file": "DSC00425.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 1,
+          "alt": "Three-quarter view of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00425-c1ffa19e",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#885808",
+          "sha1": "c1ffa19e"
+        },
+        {
+          "source": "assets/source/photos/DSC00429.jpg",
+          "file": "DSC00429.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 2,
+          "alt": "Three-quarter view of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00429-d8b0201b",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#785808",
+          "sha1": "d8b0201b"
+        },
+        {
+          "source": "assets/source/photos/DSC00433.jpg",
+          "file": "DSC00433.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 3,
+          "alt": "Three-quarter view of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00433-7f6f02f3",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#583808",
+          "sha1": "7f6f02f3"
+        },
+        {
+          "source": "assets/source/photos/DSC00404.jpg",
+          "file": "DSC00404.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 4,
+          "alt": "Seated pose of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00404-80e4c080",
+          "width": 3342,
+          "height": 5947,
+          "placeholder": "#885808",
+          "sha1": "80e4c080"
+        },
+        {
+          "source": "assets/source/photos/DSC00400.jpg",
+          "file": "DSC00400.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 5,
+          "alt": "Seated pose of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00400-f3a12f58",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#885808",
+          "sha1": "f3a12f58"
+        },
+        {
+          "source": "assets/source/photos/DSC00401.jpg",
+          "file": "DSC00401.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 6,
+          "alt": "Seated pose of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00401-0a323bfb",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#885808",
+          "sha1": "0a323bfb"
+        },
+        {
+          "source": "assets/source/photos/DSC00413.jpg",
+          "file": "DSC00413.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 7,
+          "alt": "Seated pose of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00413-ee700452",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#885808",
+          "sha1": "ee700452"
+        },
+        {
+          "source": "assets/source/photos/DSC00409.jpg",
+          "file": "DSC00409.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 8,
+          "alt": "Close portrait of the beige layered trouser set — beige, photographed against a green textured backdrop.",
+          "placements": [],
+          "basePath": "/images/products/beige-layered-trouser-set/dsc00409-493cc5f8",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#785808",
+          "sha1": "493cc5f8"
+        }
+      ]
+    },
+    {
+      "key": "navy-wrap-trouser-suit",
+      "workingName": "Navy Wrap Trouser Suit",
+      "colour": "Navy",
+      "category": "suits-co-ords",
+      "collections": [
+        "tailoring"
+      ],
+      "visual": "Dark navy wrap blazer with a side tie and notched lapels, worn with matching wide-leg trousers.",
+      "pieces": [
+        "Wrap blazer",
+        "Wide-leg trousers"
+      ],
+      "unconfirmedPieces": [],
+      "stylingProps": [
+        "Metallic clutch",
+        "Earrings"
+      ],
+      "backdrop": "ivory studio",
+      "primary": "DSC00449.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00449.jpg",
+          "file": "DSC00449.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [
+            "home.lookbook"
+          ],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00449-63e6d03e",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#e8c8a8",
+          "sha1": "63e6d03e"
+        },
+        {
+          "source": "assets/source/photos/DSC00453.jpg",
+          "file": "DSC00453.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00453-007f4838",
+          "width": 3276,
+          "height": 5549,
+          "placeholder": "#e8d8b8",
+          "sha1": "007f4838"
+        },
+        {
+          "source": "assets/source/photos/DSC00471.jpg",
+          "file": "DSC00471.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 2,
+          "alt": "Full-length view of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00471-4f4c8757",
+          "width": 3168,
+          "height": 5695,
+          "placeholder": "#d8b898",
+          "sha1": "4f4c8757"
+        },
+        {
+          "source": "assets/source/photos/DSC00477.jpg",
+          "file": "DSC00477.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 3,
+          "alt": "Full-length view of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00477-16a43c90",
+          "width": 3309,
+          "height": 5887,
+          "placeholder": "#c8a888",
+          "sha1": "16a43c90"
+        },
+        {
+          "source": "assets/source/photos/DSC00455.jpg",
+          "file": "DSC00455.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 4,
+          "alt": "Three-quarter view of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00455-27b4396c",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#e8d8b8",
+          "sha1": "27b4396c"
+        },
+        {
+          "source": "assets/source/photos/DSC00456.jpg",
+          "file": "DSC00456.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 5,
+          "alt": "Three-quarter view of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00456-03d55c80",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#e8c8a8",
+          "sha1": "03d55c80"
+        },
+        {
+          "source": "assets/source/photos/DSC00463.jpg",
+          "file": "DSC00463.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 6,
+          "alt": "Three-quarter view of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00463-4548995e",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#d8c8a8",
+          "sha1": "4548995e"
+        },
+        {
+          "source": "assets/source/photos/DSC00461.jpg",
+          "file": "DSC00461.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 7,
+          "alt": "Close portrait of the navy wrap trouser suit — navy, photographed against a ivory studio.",
+          "placements": [],
+          "basePath": "/images/products/navy-wrap-trouser-suit/dsc00461-a4bfdd9d",
+          "width": 3480,
+          "height": 5250,
+          "placeholder": "#e8c8a8",
+          "sha1": "a4bfdd9d"
+        }
+      ]
+    },
+    {
+      "key": "cream-cape-sleeve-longline-layer",
+      "workingName": "Cream Cape-Sleeve Longline Layer",
+      "colour": "Cream",
+      "category": "longline-styles",
+      "collections": [
+        "occasion",
+        "statement-sleeves"
+      ],
+      "visual": "Cream floor-length open layer with fluid cape-like sleeves and contrast black buttons, worn over a black column underlayer.",
+      "pieces": [
+        "Longline outer layer"
+      ],
+      "unconfirmedPieces": [
+        "Black underlayer shown in styling",
+        "Neck scarf shown in styling"
+      ],
+      "stylingProps": [
+        "Watch"
+      ],
+      "backdrop": "warm beige studio",
+      "primary": "DSC00493.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00493.jpg",
+          "file": "DSC00493.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the cream cape-sleeve longline layer — cream, photographed against a warm beige studio.",
+          "placements": [
+            "home.bento",
+            "collection.cover.occasion"
+          ],
+          "basePath": "/images/products/cream-cape-sleeve-longline-layer/dsc00493-a98f9ba6",
+          "width": 3387,
+          "height": 6026,
+          "placeholder": "#b88868",
+          "sha1": "a98f9ba6"
+        },
+        {
+          "source": "assets/source/photos/DSC00500.jpg",
+          "file": "DSC00500.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 1,
+          "alt": "Three-quarter view of the cream cape-sleeve longline layer — cream, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/cream-cape-sleeve-longline-layer/dsc00500-a2f36411",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b88858",
+          "sha1": "a2f36411"
+        },
+        {
+          "source": "assets/source/photos/DSC00519.jpg",
+          "file": "DSC00519.jpg",
+          "view": "movement",
+          "primary": false,
+          "position": 2,
+          "alt": "Movement shot of the cream cape-sleeve longline layer — cream, photographed against a warm beige studio.",
+          "placements": [
+            "home.lookbook"
+          ],
+          "basePath": "/images/products/cream-cape-sleeve-longline-layer/dsc00519-14a57676",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#a87858",
+          "sha1": "14a57676"
+        },
+        {
+          "source": "assets/source/photos/DSC00525.jpg",
+          "file": "DSC00525.jpg",
+          "view": "movement",
+          "primary": false,
+          "position": 3,
+          "alt": "Movement shot of the cream cape-sleeve longline layer — cream, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/cream-cape-sleeve-longline-layer/dsc00525-b264221b",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b88858",
+          "sha1": "b264221b"
+        },
+        {
+          "source": "assets/source/photos/DSC00531.jpg",
+          "file": "DSC00531.jpg",
+          "view": "movement",
+          "primary": false,
+          "position": 4,
+          "alt": "Movement shot of the cream cape-sleeve longline layer — cream, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/cream-cape-sleeve-longline-layer/dsc00531-e6f4eb7f",
+          "width": 3248,
+          "height": 5667,
+          "placeholder": "#a87858",
+          "sha1": "e6f4eb7f"
+        },
+        {
+          "source": "assets/source/photos/DSC00548.jpg",
+          "file": "DSC00548.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 5,
+          "alt": "Full-length view of the cream cape-sleeve longline layer — cream, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/cream-cape-sleeve-longline-layer/dsc00548-7f05be2f",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#a87858",
+          "sha1": "7f05be2f"
+        },
+        {
+          "source": "assets/source/photos/DSC00551.jpg",
+          "file": "DSC00551.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 6,
+          "alt": "Full-length view of the cream cape-sleeve longline layer — cream, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/cream-cape-sleeve-longline-layer/dsc00551-c1276d3e",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#a87858",
+          "sha1": "c1276d3e"
+        }
+      ]
+    },
+    {
+      "key": "lime-jewelled-button-tunic-set",
+      "workingName": "Lime Jewelled-Button Tunic & Trouser Set",
+      "colour": "Lime",
+      "category": "suits-co-ords",
+      "collections": [
+        "everyday-to-evening"
+      ],
+      "visual": "Soft lime tunic with a V neckline, a flared peplum hem and jewelled buttons, paired with slim tapered trousers.",
+      "pieces": [
+        "Tunic",
+        "Trousers"
+      ],
+      "unconfirmedPieces": [],
+      "stylingProps": [
+        "Heels",
+        "Earrings"
+      ],
+      "backdrop": "warm beige studio",
+      "primary": "DSC00602.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00602.jpg",
+          "file": "DSC00602.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the lime jewelled-button tunic & trouser set — lime, photographed against a warm beige studio.",
+          "placements": [
+            "collection.cover.everyday-to-evening"
+          ],
+          "basePath": "/images/products/lime-jewelled-button-tunic-set/dsc00602-193beae0",
+          "width": 3388,
+          "height": 6066,
+          "placeholder": "#d8a888",
+          "sha1": "193beae0"
+        },
+        {
+          "source": "assets/source/photos/DSC00606.jpg",
+          "file": "DSC00606.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the lime jewelled-button tunic & trouser set — lime, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/lime-jewelled-button-tunic-set/dsc00606-b321aabd",
+          "width": 3457,
+          "height": 6005,
+          "placeholder": "#d8b898",
+          "sha1": "b321aabd"
+        },
+        {
+          "source": "assets/source/photos/DSC00591.jpg",
+          "file": "DSC00591.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 2,
+          "alt": "Seated pose of the lime jewelled-button tunic & trouser set — lime, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/lime-jewelled-button-tunic-set/dsc00591-a9ab0153",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c89868",
+          "sha1": "a9ab0153"
+        },
+        {
+          "source": "assets/source/photos/DSC00590.jpg",
+          "file": "DSC00590.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 3,
+          "alt": "Seated pose of the lime jewelled-button tunic & trouser set — lime, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/lime-jewelled-button-tunic-set/dsc00590-bc360c9a",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c89868",
+          "sha1": "bc360c9a"
+        },
+        {
+          "source": "assets/source/photos/DSC00599.jpg",
+          "file": "DSC00599.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 4,
+          "alt": "Close portrait of the lime jewelled-button tunic & trouser set — lime, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/lime-jewelled-button-tunic-set/dsc00599-a1e15a06",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c89868",
+          "sha1": "a1e15a06"
+        }
+      ]
+    },
+    {
+      "key": "black-ivory-lace-trim-set",
+      "workingName": "Black & Ivory Lace-Trim Set",
+      "colour": "Black / Ivory",
+      "category": "longline-styles",
+      "collections": [
+        "occasion"
+      ],
+      "visual": "Black longline top with an ivory front panel, black buttons and scalloped lace trim along the placket and cuffs, worn with black trousers.",
+      "pieces": [
+        "Longline top"
+      ],
+      "unconfirmedPieces": [
+        "Black trousers shown in styling"
+      ],
+      "stylingProps": [
+        "Pearl earrings"
+      ],
+      "backdrop": "warm beige studio",
+      "primary": "DSC00653.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00653.jpg",
+          "file": "DSC00653.jpg",
+          "view": "three-quarter",
+          "primary": true,
+          "position": 0,
+          "alt": "Three-quarter view of the black & ivory lace-trim set — black / ivory, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/black-ivory-lace-trim-set/dsc00653-c352f5d9",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#c89878",
+          "sha1": "c352f5d9"
+        },
+        {
+          "source": "assets/source/photos/DSC00640.jpg",
+          "file": "DSC00640.jpg",
+          "view": "seated",
+          "primary": false,
+          "position": 1,
+          "alt": "Seated pose of the black & ivory lace-trim set — black / ivory, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/black-ivory-lace-trim-set/dsc00640-c1db8546",
+          "width": 3284,
+          "height": 5724,
+          "placeholder": "#080808",
+          "sha1": "c1db8546"
+        },
+        {
+          "source": "assets/source/photos/DSC00657.jpg",
+          "file": "DSC00657.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 2,
+          "alt": "Close-up detail of the black & ivory lace-trim set — black / ivory, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/black-ivory-lace-trim-set/dsc00657-ae0787e8",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#181808",
+          "sha1": "ae0787e8"
+        },
+        {
+          "source": "assets/source/photos/DSC00658.jpg",
+          "file": "DSC00658.jpg",
+          "view": "detail",
+          "primary": false,
+          "position": 3,
+          "alt": "Close-up detail of the black & ivory lace-trim set — black / ivory, photographed against a warm beige studio.",
+          "placements": [
+            "home.bento.detail"
+          ],
+          "basePath": "/images/products/black-ivory-lace-trim-set/dsc00658-92cc334b",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b88868",
+          "sha1": "92cc334b"
+        },
+        {
+          "source": "assets/source/photos/DSC00661.jpg",
+          "file": "DSC00661.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 4,
+          "alt": "Close portrait of the black & ivory lace-trim set — black / ivory, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/black-ivory-lace-trim-set/dsc00661-37afb9b6",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#b89878",
+          "sha1": "37afb9b6"
+        },
+        {
+          "source": "assets/source/photos/DSC00662.jpg",
+          "file": "DSC00662.jpg",
+          "view": "portrait",
+          "primary": false,
+          "position": 5,
+          "alt": "Close portrait of the black & ivory lace-trim set — black / ivory, photographed against a warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/black-ivory-lace-trim-set/dsc00662-4422f546",
+          "width": 3301,
+          "height": 5047,
+          "placeholder": "#c89878",
+          "sha1": "4422f546"
+        }
+      ]
+    },
+    {
+      "key": "emerald-tie-neck-maxi",
+      "workingName": "Emerald Tie-Neck Maxi Dress",
+      "colour": "Emerald",
+      "category": "longline-styles",
+      "collections": [
+        "occasion",
+        "statement-sleeves"
+      ],
+      "visual": "Emerald floor-length dress with a high tie neck, long drapes and wide fluid sleeves.",
+      "pieces": [
+        "Maxi dress"
+      ],
+      "unconfirmedPieces": [
+        "Whether the neck tie is attached"
+      ],
+      "stylingProps": [
+        "Earrings"
+      ],
+      "backdrop": "dark studio and warm beige studio",
+      "primary": "DSC00707.jpg",
+      "images": [
+        {
+          "source": "assets/source/photos/DSC00707.jpg",
+          "file": "DSC00707.jpg",
+          "view": "full",
+          "primary": true,
+          "position": 0,
+          "alt": "Full-length view of the emerald tie-neck maxi dress — emerald, photographed against a dark studio and warm beige studio.",
+          "placements": [
+            "home.lookbook"
+          ],
+          "basePath": "/images/products/emerald-tie-neck-maxi/dsc00707-c6cf69d0",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#d8a878",
+          "sha1": "c6cf69d0"
+        },
+        {
+          "source": "assets/source/photos/DSC00667.jpg",
+          "file": "DSC00667.jpg",
+          "view": "full",
+          "primary": false,
+          "position": 1,
+          "alt": "Full-length view of the emerald tie-neck maxi dress — emerald, photographed against a dark studio and warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/emerald-tie-neck-maxi/dsc00667-f55dc934",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#080808",
+          "sha1": "f55dc934"
+        },
+        {
+          "source": "assets/source/photos/DSC00665.jpg",
+          "file": "DSC00665.jpg",
+          "view": "side",
+          "primary": false,
+          "position": 2,
+          "alt": "Side profile of the emerald tie-neck maxi dress — emerald, photographed against a dark studio and warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/emerald-tie-neck-maxi/dsc00665-aea91268",
+          "width": 3433,
+          "height": 6109,
+          "placeholder": "#080808",
+          "sha1": "aea91268"
+        },
+        {
+          "source": "assets/source/photos/DSC00672.jpg",
+          "file": "DSC00672.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 3,
+          "alt": "Three-quarter view of the emerald tie-neck maxi dress — emerald, photographed against a dark studio and warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/emerald-tie-neck-maxi/dsc00672-50907568",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#080808",
+          "sha1": "50907568"
+        },
+        {
+          "source": "assets/source/photos/DSC00689.jpg",
+          "file": "DSC00689.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 4,
+          "alt": "Three-quarter view of the emerald tie-neck maxi dress — emerald, photographed against a dark studio and warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/emerald-tie-neck-maxi/dsc00689-746f6898",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#181808",
+          "sha1": "746f6898"
+        },
+        {
+          "source": "assets/source/photos/DSC00703.jpg",
+          "file": "DSC00703.jpg",
+          "view": "three-quarter",
+          "primary": false,
+          "position": 5,
+          "alt": "Three-quarter view of the emerald tie-neck maxi dress — emerald, photographed against a dark studio and warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/emerald-tie-neck-maxi/dsc00703-8c135066",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#d8a878",
+          "sha1": "8c135066"
+        },
+        {
+          "source": "assets/source/photos/DSC00719.jpg",
+          "file": "DSC00719.jpg",
+          "view": "movement",
+          "primary": false,
+          "position": 6,
+          "alt": "Movement shot of the emerald tie-neck maxi dress — emerald, photographed against a dark studio and warm beige studio.",
+          "placements": [],
+          "basePath": "/images/products/emerald-tie-neck-maxi/dsc00719-26076a7b",
+          "width": 3480,
+          "height": 6192,
+          "placeholder": "#d8a878",
+          "sha1": "26076a7b"
+        }
+      ]
+    }
+  ],
+  "editorial": [
+    {
+      "source": "assets/source/photos/DSC00020.jpg",
+      "file": "DSC00020.jpg",
+      "looks": [
+        "ivory-longline-coat-gold-fastenings",
+        "teal-statement-sleeve-suit"
+      ],
+      "alt": "Two models wearing the ivory longline coat with gold-tone fastenings and the teal statement-sleeve trouser suit, against a green textured backdrop.",
+      "placements": [
+        "home.bento.lead",
+        "lookbook.gallery"
+      ],
+      "basePath": "/images/products/editorial/dsc00020-934a995d",
+      "width": 3480,
+      "height": 6192,
+      "placeholder": "#887838",
+      "sha1": "934a995d"
+    },
+    {
+      "source": "assets/source/photos/DSC00025.jpg",
+      "file": "DSC00025.jpg",
+      "looks": [
+        "ivory-longline-coat-gold-fastenings",
+        "teal-statement-sleeve-suit"
+      ],
+      "alt": "Two models wearing the ivory longline coat with gold-tone fastenings and the teal statement-sleeve trouser suit, against a green textured backdrop.",
+      "placements": [
+        "about.header"
+      ],
+      "basePath": "/images/products/editorial/dsc00025-eca5ac6a",
+      "width": 3480,
+      "height": 6192,
+      "placeholder": "#887838",
+      "sha1": "eca5ac6a"
+    },
+    {
+      "source": "assets/source/photos/DSC00035.jpg",
+      "file": "DSC00035.jpg",
+      "looks": [
+        "ivory-longline-coat-gold-fastenings",
+        "teal-statement-sleeve-suit"
+      ],
+      "alt": "Two models wearing the ivory longline coat with gold-tone fastenings and the teal statement-sleeve trouser suit, against a green textured backdrop.",
+      "placements": [
+        "lookbook.gallery"
+      ],
+      "basePath": "/images/products/editorial/dsc00035-cb5fb15a",
+      "width": 3480,
+      "height": 6192,
+      "placeholder": "#d8b898",
+      "sha1": "cb5fb15a"
+    },
+    {
+      "source": "assets/source/photos/DSC00045.jpg",
+      "file": "DSC00045.jpg",
+      "looks": [
+        "ivory-longline-coat-gold-fastenings",
+        "teal-statement-sleeve-suit"
+      ],
+      "alt": "Two models wearing the ivory longline coat with gold-tone fastenings and the teal statement-sleeve trouser suit, against a green textured backdrop.",
+      "placements": [
+        "lookbook.gallery"
+      ],
+      "basePath": "/images/products/editorial/dsc00045-b21ba261",
+      "width": 3480,
+      "height": 6192,
+      "placeholder": "#d8b898",
+      "sha1": "b21ba261"
+    }
+  ],
+  "logo": {
+    "src": "assets/reference/layaan_logo.jpeg",
+    "aspect": 3.680497925311203,
+    "files": [
+      "logo-gold.png",
+      "logo-gold.webp",
+      "logo-square-512.jpg",
+      "apple-touch-icon.png",
+      "favicon-64.png"
+    ]
+  },
+  "reel": {
+    "source": "assets/source/reels/LAYAAN REEL 1.mov",
+    "video": "/videos/layaan-reel-1-720.mp4",
+    "poster": "/videos/layaan-reel-1-poster.jpg",
+    "posterWebp": "/videos/layaan-reel-1-poster.webp",
+    "width": 720,
+    "height": 1280,
+    "durationSeconds": 27.6,
+    "sizeBytes": 2572173
+  },
+  "sourceCount": 117
+}
