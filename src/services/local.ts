@@ -134,12 +134,12 @@ export const localOrderService: OrderService = {
 // returns the same TrackingInfo shape.
 // ---------------------------------------------------------------------------------------------
 
-export const STATUS_FLOW: Exclude<OrderStatus, "cancelled">[] = ["processing", "confirmed", "shipped", "out-for-delivery", "delivered"];
+export const STATUS_FLOW: Exclude<OrderStatus, "cancelled" | "returned">[] = ["processing", "confirmed", "shipped", "out-for-delivery", "delivered"];
 
 /** Minutes after placing the order at which each simulated stage is reached (preview only). */
 export const DEMO_STAGE_MINUTES = [0, 1, 3, 5, 8] as const;
 
-const STAGE_COPY: Record<Exclude<OrderStatus, "cancelled">, string> = {
+const STAGE_COPY: Record<Exclude<OrderStatus, "cancelled" | "returned">, string> = {
   processing: "Order received and being prepared.",
   confirmed: "Order confirmed by the atelier.",
   shipped: "Parcel handed to the delivery partner.",

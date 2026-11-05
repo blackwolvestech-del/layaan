@@ -8,6 +8,7 @@ import { EmptyState, Tag } from "@/components/ui/misc";
 import { useAsync } from "@/hooks/useAsync";
 import { useOrderViewer } from "@/hooks/useOrderViewer";
 import { orderService, returnService, trackingService } from "@/services";
+import { estimateDelivery } from "@/services/supabase";
 import { returnReasons } from "@/data/returns";
 
 export default function OrderDetails() {
@@ -37,7 +38,7 @@ export default function OrderDetails() {
             </Notice>
           )}
           {state.status === "success" && (
-            <EmptyState icon="box" title="Order not found" body={`We couldn't find order ${orderId} for your account on this device.`} action={<ButtonLink to="/account/orders">Back to your orders</ButtonLink>} />
+            <EmptyState icon="box" title="Order not found" body={`We couldn't find order ${orderId} for your account.`} action={<ButtonLink to="/account/orders">Back to your orders</ButtonLink>} />
           )}
         </div>
       </>
@@ -79,7 +80,6 @@ export default function OrderDetails() {
               </ButtonLink>
             )}
           </div>
-          <p className="code-accent mt-4">preview: status updates are simulated</p>
         </Panel>
 
         <div className="grid gap-6 lg:grid-cols-12">
@@ -99,7 +99,7 @@ export default function OrderDetails() {
             </Panel>
             <Panel title="Delivery & payment">
               <p className="text-sm font-semibold">{order.shippingMethod.label}</p>
-              <p className="mt-1 text-sm text-ink-2">Estimated delivery: {tracking.estimatedDelivery ?? order.shippingMethod.estimate ?? "to be confirmed"}</p>
+              <p className="mt-1 text-sm text-ink-2">Estimated delivery: {tracking.estimatedDelivery ?? estimateDelivery(order) ?? "to be confirmed"}</p>
               <div className="mt-4 border-t border-line pt-4">
                 <PaymentDetails payment={order.payment} total={order.totals.total} />
               </div>

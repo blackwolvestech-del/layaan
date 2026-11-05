@@ -8,18 +8,37 @@ export type { Product };
 /** Amounts are integers in the currency's minor unit (e.g. paisa, cents) to avoid float drift. */
 export type Money = number;
 
-export type SizeId = "XS" | "S" | "M" | "L" | "XL";
+/** A size name as managed per product in the CRM (e.g. "XS" … "XL"). */
+export type SizeId = string;
 
 /** A standard size, or "Custom" for a made-to-measure product sized from the customer's measurements. */
 export type LineSize = SizeId | "Custom";
+
+/** One size of a product, with its own stock (from the CRM's size-wise inventory). */
+export interface VariantOffer {
+  id: string;
+  size: SizeId;
+  sku: string;
+  price: Money;
+  /** Units available; null when the size is not stock-limited. */
+  stock: number | null;
+}
 
 /** Commercial details for a catalogue product. Product content stays in the catalogue. */
 export interface ProductOffer {
   productId: string;
   price: Money;
+  /** Original price when the product is on sale (shown struck through). */
+  compareAt?: Money | null;
   /** False while the price is a demo placeholder awaiting the brand's approval. */
   priceConfirmed: boolean;
+  /** Every size the product is made in, in order (sold-out sizes included). */
   sizes: SizeId[];
+  variants: VariantOffer[];
+  /** False when nothing can currently be ordered. */
+  available: boolean;
+  /** Made to the customer's own measurements instead of a standard size. */
+  madeToMeasure: boolean;
 }
 
 /** What the browser persists: references only, never copied product content or prices. */
@@ -98,6 +117,8 @@ export type PaymentStatus =
   | "not-charged"
   | "authorised"
   | "paid"
+  | "partially-paid"
+  | "failed"
   | "refunded";
 
 /** Payment details kept on the order. Card numbers are never stored. */
@@ -113,7 +134,7 @@ export interface OrderTotals {
   total: Money;
 }
 
-export type OrderStatus = "processing" | "confirmed" | "shipped" | "out-for-delivery" | "delivered" | "cancelled";
+export type OrderStatus = "processing" | "confirmed" | "shipped" | "out-for-delivery" | "delivered" | "cancelled" | "returned";
 
 export interface TrackingEvent {
   status: OrderStatus;
@@ -140,6 +161,8 @@ export interface OrderItem {
   label: string;
   colour: string;
   imageId: string | null;
+  /** Image saved with the order (URL), used when the product is no longer in the catalogue. */
+  imageUrl?: string | null;
   size: LineSize;
   /** Measurements the piece is made to (inches), present only when size is "Custom". */
   measurements?: CustomMeasurements;
@@ -149,6 +172,7 @@ export interface OrderItem {
 }
 
 export interface Order {
+  /** Order number (e.g. LYN-1001), as shown in the CRM. */
   id: string;
   /** ISO timestamp. */
   createdAt: string;
@@ -166,6 +190,12 @@ export interface Order {
   shippingMethod: ShippingMethod;
   payment: PaymentSummary;
   totals: OrderTotals;
+  /** Current status as set in the CRM (absent on orders saved by the old browser-only preview). */
+  status?: OrderStatus;
+  /** Status history from the CRM, latest first. */
+  events?: TrackingEvent[];
+  /** Return requests recorded on the order. */
+  returns?: ReturnRequest[];
 }
 
 /** Everything checkout collects; the order service turns it into an Order. */

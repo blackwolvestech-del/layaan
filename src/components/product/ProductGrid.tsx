@@ -23,14 +23,23 @@ export function ProductGrid({ products, className = "lg:grid-cols-3 xl:grid-cols
               <motion.div
                 key={p.id}
                 layout={!reduce}
-                className={clsx(feature && "lg:col-span-2 lg:row-span-2")}
+                // The large tile never sizes the rows: the regular cards beside it do, and the
+                // feature card fills exactly that 2×2 area (its photo takes the height left
+                // after the caption), so all card bottoms line up.
+                className={clsx(feature && "lg:relative lg:col-span-2 lg:row-span-2")}
                 initial={reduce ? false : { opacity: 0, y: 70, clipPath: "inset(22% 0% 0% 0%)" }}
                 whileInView={{ opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" }}
                 exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.2 } }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 1, ease: ease.editorial, delay: (i % 4) * 0.08 }}
               >
-                <ProductCard product={p} animate={false} sizes={feature ? "(min-width: 1024px) 50vw, 50vw" : undefined} />
+                {feature ? (
+                  <div className="lg:absolute lg:inset-0">
+                    <ProductCard product={p} animate={false} fill sizes="(min-width: 1024px) 50vw, 50vw" />
+                  </div>
+                ) : (
+                  <ProductCard product={p} animate={false} />
+                )}
               </motion.div>
             );
           })}

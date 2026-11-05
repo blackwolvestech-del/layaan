@@ -23,7 +23,7 @@ export default function Orders() {
 
   return (
     <>
-      <PageHeader docTitle="Your orders" eyebrow="Your account" title="Your orders" intro="Orders placed in this preview are kept in this browser on this device." crumbs={[{ label: "Your orders" }]} />
+      <PageHeader docTitle="Your orders" eyebrow="Your account" title="Your orders" intro="Every order placed with your account, with its latest status from the atelier." crumbs={[{ label: "Your orders" }]} />
       <div className="container-x">
         {state.status === "loading" && <LoadingBlock label="Loading your orders" />}
         {state.status === "error" && (

@@ -4,14 +4,16 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { PendingNote } from "@/components/ui/misc";
 
 // Structure only: the approved privacy policy must be supplied by the business. The one factual
-// section ("On this preview site") describes what this frontend actually stores — keep it in sync
-// with the storage keys used in src/hooks, src/context and src/services.
+// section ("What this website stores") describes what the site actually stores — keep it in sync
+// with the storage keys used in src/hooks, src/context, src/lib and src/services.
 const deviceStorage = [
   { key: "layaan-theme", purpose: "Your light / dark theme choice" },
   { key: "layaan-demo-wishlist", purpose: "Looks saved to your wishlist" },
-  { key: "layaan-demo-cart", purpose: "Items in your shopping bag (product, size, quantity)" },
-  { key: "layaan-demo-orders", purpose: "Orders placed in this preview, including the contact and shipping details entered at checkout" },
-  { key: "layaan-demo-returns", purpose: "Return requests made in this preview" },
+  { key: "layaan_demo_cart_pkr", purpose: "Items in your shopping bag (product, size, quantity, measurements)" },
+  { key: "layaan-auth", purpose: "Your sign-in session, when you sign in to your account" },
+  { key: "layaan_address_book", purpose: "Extra delivery addresses you save to your address book" },
+  { key: "layaan_customer_prefs", purpose: "Your communication preferences" },
+  { key: "layaan-order-receipts", purpose: "Guest orders placed during this visit (cleared when the tab is closed)" },
 ];
 
 export default function PrivacyPolicy() {
@@ -40,10 +42,10 @@ export default function PrivacyPolicy() {
           },
           {
             id: "preview-site",
-            title: "On this preview site",
+            title: "What this website stores",
             body: (
               <>
-                <p>This version of the website is a preview with no server connected. Nothing you enter is sent anywhere, no payment is taken and no emails are sent. The following is saved only in your browser's local storage on this device:</p>
+                <p>When you place an order or create an account, your contact, delivery and order details (and any measurements for made-to-measure pieces) are sent securely to LAYAAN Atelier and kept in our order system. No card payment is taken on this site. The following is also saved in your browser on this device:</p>
                 <div className="my-4 overflow-hidden border border-line">
                   <table className="w-full text-left text-sm">
                     <caption className="sr-only">Information stored in this browser</caption>
@@ -81,7 +83,7 @@ export default function PrivacyPolicy() {
             title: "Cookies",
             body: (
               <>
-                <p>This preview site does not set cookies; it uses browser local storage as described above.</p>
+                <p>This site does not set cookies; it uses browser storage as described above.</p>
                 <PolicyPlaceholder>Cookies and similar technologies used at launch (essential, analytics, marketing), their purposes and how to manage consent.</PolicyPlaceholder>
               </>
             ),

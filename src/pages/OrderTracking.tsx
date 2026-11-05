@@ -82,7 +82,7 @@ export default function OrderTracking() {
             {result.status === "loading" && <LoadingBlock label="Looking up your order" rows={2} />}
             {result.status === "not-found" && (
               <Notice tone="error" title="No matching order">
-                Check the order number and email address. Orders placed in this preview can only be found on the device they were placed on.
+                Check the order number (e.g. LYN-1001) and the email address or phone number used at checkout.
               </Notice>
             )}
             {result.status === "error" && <Notice tone="error" title="Something went wrong">Please try again in a moment.</Notice>}
@@ -105,7 +105,6 @@ export default function OrderTracking() {
                       </div>
                     </dl>
                     <TrackingTimeline status={result.tracking.status} events={result.tracking.events} />
-                    <p className="code-accent mt-6">preview: tracking is simulated — a shipping provider will supply live updates</p>
                   </Panel>
 
                   <Panel title="Tracking history">

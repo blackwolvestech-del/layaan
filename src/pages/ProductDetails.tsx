@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Accordion } from "radix-ui";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Link, useParams } from "react-router";
 import { PurchasePanel } from "@/components/commerce/PurchasePanel";
 import { SizeGuideTable } from "@/components/commerce/SizeGuide";
@@ -12,6 +12,7 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/misc";
+import { refreshProduct, useCatalogVersion } from "@/data/catalogStore";
 import { categories, productById, products } from "@/data/products";
 import { DetailsStrip } from "@/sections/DetailsStrip";
 import { ease, fadeUp, staggerParent } from "@/utils/motion";
@@ -36,6 +37,11 @@ function InfoSection({ value, title, children }: { value: string; title: string;
 export default function ProductDetails() {
   const reduce = useReducedMotion();
   const { slug = "" } = useParams();
+  useCatalogVersion();
+  // Fresh price, photos and per-size stock straight from the database on every visit.
+  useEffect(() => {
+    if (slug) void refreshProduct(slug);
+  }, [slug]);
   const product = productById(slug);
   if (!product) return <NotFound />;
   const category = categories.find((c) => c.id === product.category);

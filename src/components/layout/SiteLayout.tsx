@@ -7,6 +7,7 @@ import { RouteCurtain } from "@/components/fx/RouteCurtain";
 import { Lightbox } from "@/components/product/Lightbox";
 import { QuickView } from "@/components/product/QuickView";
 import { useUi } from "@/context/UiContext";
+import { useCatalogVersion } from "@/data/catalogStore";
 import { pageTransition } from "@/utils/motion";
 import { scrollToTop, SmoothScrollProvider } from "@/utils/scroll";
 import { Footer } from "./Footer";
@@ -28,6 +29,8 @@ function RouteProgress() {
 
 /** Shared header, footer and overlays for every page, with page transitions and focus management. */
 export function SiteLayout() {
+  // Re-render the shop when the live catalogue refreshes (e.g. stock changed in the CRM).
+  useCatalogVersion();
   const { pathname } = useLocation();
   const { closeOverlay, closeQuickView, closeLightbox } = useUi();
   const reduce = useReducedMotion();

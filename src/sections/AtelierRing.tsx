@@ -34,10 +34,14 @@ export function AtelierRing() {
   const [front, setFront] = useState(0);
   const [hovering, setHovering] = useState(false);
   const [gl] = useState(() => typeof document !== "undefined" && webglAvailable());
+  const looks = useMemo(() => products.filter((p) => p.images[0]), []);
   const items: RingItem[] = useMemo(() => // Derivatives: WebP/AVIF at every width, JPEG only at 1200 (used as the fallback).
-    products.map((p) => ({ id: p.id, src: `${p.images[0]!.basePath}-800.webp`, fallback: `${p.images[0]!.basePath}-1200.jpg` })), []);
-  const current = products[front]!;
-  const category = categories.find((c) => c.id === current.category)?.name;
+    looks.map((p) => {
+      const img = p.images[0]!;
+      return { id: p.id, src: img.src ?? `${img.basePath}-800.webp`, fallback: img.src ?? `${img.basePath}-1200.jpg` };
+    }), [looks]);
+  const current = looks[front] ?? looks[0];
+  const category = categories.find((c) => c.id === current?.category)?.name;
   const use3d = gl && !reduce;
 
   useEffect(() => {
@@ -47,6 +51,8 @@ export function AtelierRing() {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  if (!current) return null;
 
   return (
     <section ref={sectionRef} aria-labelledby="ring-title" className="relative overflow-hidden bg-[#15120e] py-20 text-[#f4ede1] sm:py-28">
@@ -70,7 +76,7 @@ export function AtelierRing() {
                   items={items}
                   active={visible}
                   className="absolute inset-0 [&>canvas]:h-full [&>canvas]:w-full"
-                  onSelect={(i) => openQuickView(products[i]!.id)}
+                  onSelect={(i) => openQuickView(looks[i]!.id)}
                   onFront={setFront}
                   onHover={setHovering}
                 />
@@ -82,7 +88,7 @@ export function AtelierRing() {
             <AnimatePresence mode="wait" initial={false}>
               <motion.div key={current.id} initial={{ opacity: 0, y: 14, filter: "blur(6px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={{ opacity: 0, y: -10, filter: "blur(6px)" }} transition={{ duration: 0.45, ease: ease.editorial }}>
                 <p className="code-accent !text-white/50">
-                  {String(front + 1).padStart(2, "0")} / {String(products.length).padStart(2, "0")} · {current.colour} · {category}
+                  {String(front + 1).padStart(2, "0")} / {String(looks.length).padStart(2, "0")} · {current.colour} · {category}
                 </p>
                 <p className="mt-2 text-sm font-semibold tracking-[0.1em] uppercase">{current.label}</p>
                 <Link to={`/products/${current.id}`} className="nav-caps mt-3 inline-flex min-h-10 items-center gap-2 !text-[#d8b772] hover:underline hover:underline-offset-4">
@@ -94,7 +100,7 @@ export function AtelierRing() {
         </>
       ) : (
         <ul className="container-x mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-          {products.map((p) => (
+          {looks.map((p) => (
             <li key={p.id}>
               <button type="button" onClick={() => openQuickView(p.id)} className="group block w-full text-left" aria-haspopup="dialog" aria-label={`Quick view: ${p.label}`}>
                 <Img image={p.images[0]} sizes="(min-width: 1024px) 16vw, (min-width: 640px) 25vw, 50vw" className="aspect-[3/4]" decorative />
@@ -108,7 +114,7 @@ export function AtelierRing() {
       {use3d && (
         <nav aria-label="Look index" className="container-x relative mt-8">
           <ul className="scrollbar-none -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:justify-center">
-            {products.map((p, i) => (
+            {looks.map((p, i) => (
               <li key={p.id} className="shrink-0">
                 <button
                   type="button"

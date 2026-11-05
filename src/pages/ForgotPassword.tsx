@@ -23,9 +23,14 @@ export default function ForgotPassword() {
     }
 
     setLoading(true);
-    await forgotPassword(email);
-    setLoading(false);
-    setSubmitted(true);
+    try {
+      await forgotPassword(email);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,19 +56,13 @@ export default function ForgotPassword() {
                 <Icon name="mail" size={24} />
               </div>
               <div className="border border-line bg-surface-2/40 p-4 text-xs text-ink-2">
-                <p className="font-semibold text-ink">Reset Instructions Dispatched (Simulated)</p>
+                <p className="font-semibold text-ink">Check your inbox</p>
                 <p className="mt-1 leading-relaxed text-muted">
-                  We have prepared password reset instructions for <strong className="font-mono text-ink">{email}</strong>.
+                  If an account exists for <strong className="font-mono text-ink">{email}</strong>, we've emailed a link to set a new password. The link opens this site and expires after a short time.
                 </p>
               </div>
 
               <div className="space-y-3">
-                <Link
-                  to={`/reset-password?email=${encodeURIComponent(email)}`}
-                  className="block w-full border border-gold bg-gold py-3 text-xs font-semibold tracking-wider text-accent-contrast uppercase hover:brightness-105"
-                >
-                  Simulate Password Reset Now
-                </Link>
 
                 <Link
                   to="/login"

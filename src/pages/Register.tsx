@@ -52,8 +52,8 @@ export default function Register() {
       const res = await register({ firstName, lastName, email, password });
       toast("Account registered. Please verify your email.");
       navigate(`/verify-email?email=${encodeURIComponent(res.email)}`);
-    } catch {
-      setError("An error occurred during account creation.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred during account creation.");
     } finally {
       setLoading(false);
     }

@@ -9,10 +9,11 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Img } from "@/components/ui/Img";
 import { EmptyState, Reveal } from "@/components/ui/misc";
+import { maxQuantityFor } from "@/data/commerce";
 import { formatPrice } from "@/utils/currency";
 
 export default function Cart() {
-  const { items, itemCount, subtotal, shipping, total, updateQuantity, removeItem, clearCart } = useCart();
+  const { items, itemCount, subtotal, shipping, total, updateQuantity, removeItem, clearCart, stockIssue } = useCart();
 
   return (
     <div>
@@ -70,6 +71,11 @@ export default function Cart() {
                         <p className="font-mono text-sm font-semibold text-ink sm:text-base">
                           {formatPrice(item.price)}
                         </p>
+                        {stockIssue(item) && (
+                          <p role="status" className="text-xs font-semibold text-danger">
+                            {stockIssue(item)}
+                          </p>
+                        )}
                     </div>
 
                     <div className="col-span-2 flex items-center justify-between gap-4 sm:col-span-1 sm:flex-col sm:items-end sm:justify-between">
@@ -90,7 +96,8 @@ export default function Cart() {
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.id, 1)}
-                          className="grid h-9 w-9 place-items-center text-muted hover:bg-surface-2 hover:text-ink"
+                          className="grid h-9 w-9 place-items-center text-muted hover:bg-surface-2 hover:text-ink disabled:opacity-30"
+                          disabled={item.quantity >= maxQuantityFor(item.productId, item.selectedSize)}
                           aria-label="Increase quantity"
                         >
                           <Icon name="plus" size={14} />

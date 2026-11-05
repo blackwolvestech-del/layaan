@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useMotionTemplate, useMotionValue, useReducedM
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router";
-import { offerFor } from "@/data/commerce";
+import { offerFor, stockFor } from "@/data/commerce";
 import { categories, hoverImage, type Product, type ProductImage } from "@/data/products";
 import { ease, fadeUp } from "@/utils/motion";
 import { useUi } from "@/context/UiContext";
@@ -233,21 +233,26 @@ function QuickAddPanel({ product, open, onClose }: { product: Product; open: boo
                   </button>
                 </div>
                 <div className="grid grid-cols-5 gap-1">
-                  {offer.sizes.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      data-size
-                      onClick={() => {
-                        addToBag(product, s);
-                        setAdded(s);
-                      }}
-                      aria-label={`Add size ${s} to bag`}
-                      className="grid h-10 place-items-center rounded-[2px] border border-line-strong text-[0.6875rem] font-semibold transition-colors hover:border-ink hover:bg-ink hover:text-bg"
-                    >
-                      {s}
-                    </button>
-                  ))}
+                  {offer.sizes.map((s) => {
+                    const stock = stockFor(product.id, s);
+                    const soldOut = stock !== null && stock <= 0;
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        data-size
+                        disabled={soldOut}
+                        onClick={() => {
+                          addToBag(product, s);
+                          setAdded(s);
+                        }}
+                        aria-label={soldOut ? `Size ${s}, sold out` : `Add size ${s} to bag`}
+                        className="grid h-10 place-items-center rounded-[2px] border border-line-strong text-[0.6875rem] font-semibold transition-colors hover:border-ink hover:bg-ink hover:text-bg disabled:pointer-events-none disabled:border-line disabled:text-muted disabled:line-through disabled:opacity-50"
+                      >
+                        {s}
+                      </button>
+                    );
+                  })}
                 </div>
               </motion.div>
             )}
@@ -258,8 +263,13 @@ function QuickAddPanel({ product, open, onClose }: { product: Product; open: boo
   );
 }
 
-/** @param animate set false when a parent (e.g. a rail) already animates the card. */
-export function ProductCard({ product, sizes = "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw", animate = true }: { product: Product; sizes?: string; animate?: boolean }) {
+/**
+ * @param animate set false when a parent (e.g. a rail) already animates the card.
+ * @param fill on large screens the card fills its grid area (a 2×2 feature tile): the photo frame
+ *   grows to the height left after the caption, so the caption's bottom lines up with the
+ *   neighbouring cards instead of leaving empty space below.
+ */
+export function ProductCard({ product, sizes = "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw", animate = true, fill = false }: { product: Product; sizes?: string; animate?: boolean; fill?: boolean }) {
   const reduce = useReducedMotion();
   const { openQuickView } = useUi();
   const hover = hoverImage(product);
@@ -313,18 +323,18 @@ export function ProductCard({ product, sizes = "(min-width: 1280px) 25vw, (min-w
     <motion.article
       layout={animate && !reduce}
       variants={animate && !reduce ? fadeUp : undefined}
-      className="group"
+      className={clsx("group", fill && "lg:flex lg:h-full lg:flex-col")}
       onPointerLeave={hidePreview}
     >
       {/* overflow-hidden keeps the hidden quick-view bar from overlapping the text below. */}
-      <div className="relative overflow-hidden">
+      <div className={clsx("relative overflow-hidden", fill && "lg:flex lg:min-h-0 lg:flex-1 lg:flex-col")}>
         {/* Image link is hidden from the tab order; the title link below is the focusable one. */}
         <Link
           to={href}
           tabIndex={-1}
           aria-hidden
           data-cursor="View"
-          className="block"
+          className={clsx("block", fill && "lg:flex lg:min-h-0 lg:flex-1 lg:flex-col")}
           // Mouse only (touch and pen never pop), after a short steady hover over the photo.
           onPointerEnter={(e) => {
             if (e.pointerType !== "mouse" || reduce) return;
@@ -340,7 +350,7 @@ export function ProductCard({ product, sizes = "(min-width: 1280px) 25vw, (min-w
           onPointerLeave={hidePreview}
           onPointerDown={hidePreview}
         >
-          <div ref={frameRef} className="relative aspect-[3/4] overflow-hidden bg-surface-2">
+          <div ref={frameRef} className={clsx("relative aspect-[3/4] overflow-hidden bg-surface-2", fill && "lg:aspect-auto lg:min-h-0 lg:flex-1")}>
             {/* The main photo stays visible underneath, so the hover swap never shows a blank frame. */}
             <Img image={product.images[0]} sizes={sizes} className="absolute inset-0" decorative />
             {hover && <Img image={hover} sizes={sizes} decorative className="absolute inset-0 opacity-0 transition-opacity duration-[1.2s] ease-[var(--ease-editorial)] group-hover:opacity-100 max-lg:hidden" />}
@@ -392,7 +402,13 @@ export function ProductCard({ product, sizes = "(min-width: 1280px) 25vw, (min-w
         <p className="mt-1 text-xs text-muted">
           {product.colour} · {category}
         </p>
-        {offer && <Price amount={offer.price} className="mt-1.5 block text-[0.8125rem] font-semibold" />}
+        {offer && (
+          <span className="mt-1.5 flex flex-wrap items-baseline gap-x-2 text-[0.8125rem]">
+            <Price amount={offer.price} className="font-semibold" />
+            {offer.compareAt && <Price amount={offer.compareAt} className="text-xs text-muted line-through" />}
+            {!offer.available && <span className="text-[0.6875rem] font-semibold tracking-[0.12em] text-danger uppercase">Sold out</span>}
+          </span>
+        )}
       </Link>
     </motion.article>
   );

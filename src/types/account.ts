@@ -35,7 +35,7 @@ export interface Address {
   isDefaultBilling: boolean;
 }
 
-export type OrderStatus = "Processing" | "In Transit" | "Delivered" | "Returned";
+export type OrderStatus = "Processing" | "In Transit" | "Delivered" | "Returned" | "Cancelled";
 
 export interface OrderTimelineEvent {
   status: string;
@@ -52,7 +52,7 @@ export interface OrderItem {
   productLabel: string;
   colour: string;
   productImage: ProductImage;
-  selectedSize: "XS" | "S" | "M" | "L" | "XL";
+  selectedSize: string;
   quantity: number;
   price: number;
 }
@@ -69,7 +69,7 @@ export interface Order {
   total: number;
   shippingAddress: Address;
   paymentMethod: {
-    type: "Card" | "Apple Pay" | "Wire Transfer";
+    type: string;
     last4: string;
     expiry?: string;
   };

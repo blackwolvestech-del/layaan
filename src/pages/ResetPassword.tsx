@@ -9,9 +9,9 @@ import { Reveal } from "@/components/ui/misc";
 
 export default function ResetPassword() {
   const [params] = useSearchParams();
-  const email = params.get("email") || "client@layaan-atelier.com";
-
-  const { resetPassword } = useAuth();
+  const { resetPassword, customer, isAuthenticated, ready } = useAuth();
+  // The reset link from the email opens a short recovery session for the account.
+  const email = customer?.email || params.get("email") || "your account";
   const { toast } = useUi();
   const navigate = useNavigate();
 
@@ -35,11 +35,20 @@ export default function ResetPassword() {
       return;
     }
 
+    if (ready && !isAuthenticated) {
+      setError("This reset link has expired or was already used. Please request a new one from “Forgot password”.");
+      return;
+    }
     setLoading(true);
-    await resetPassword(newPassword);
-    setLoading(false);
-    setSuccess(true);
-    toast("Password updated successfully.");
+    try {
+      await resetPassword(newPassword);
+      setSuccess(true);
+      toast("Password updated successfully.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Your password couldn't be updated. Please request a new reset link.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

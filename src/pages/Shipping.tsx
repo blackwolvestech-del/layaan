@@ -2,14 +2,14 @@ import { Accordion } from "radix-ui";
 import { HelpLinks, PolicyLayout, PolicyPlaceholder } from "@/components/commerce/PolicyParts";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Icon } from "@/components/ui/Icon";
-import { shippingMethods } from "@/data/commerce";
+import { DELIVERY_TIME_COPY, shippingMethods } from "@/data/commerce";
 
 // Delivery areas, rates, times and carriers have not been supplied. Every business-specific
 // statement below is a clearly marked placeholder for approved copy.
 const faqs = [
   { q: "Where do you deliver?", a: "Delivery destinations to be confirmed by LAYAAN Atelier." },
   { q: "How much does delivery cost?", a: "Shipping rates to be confirmed. Any shipping charge is shown at checkout before you place an order." },
-  { q: "How long will my order take?", a: "Processing and delivery times to be confirmed." },
+  { q: "How long will my order take?", a: DELIVERY_TIME_COPY },
   { q: "How do I track my order?", a: "Once your order ships, a tracking reference appears on your order page and on the Track an order page." },
   { q: "Can I change my delivery address after ordering?", a: "Address change process to be confirmed." },
   { q: "Are duties or taxes charged on international orders?", a: "Duties and tax information to be confirmed." },

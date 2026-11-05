@@ -1,3 +1,5 @@
+// Original size charts supplied by LAYAAN Atelier. They were imported into the CRM (products.size_chart),
+// which is now the source of truth; this file is kept only as the reference the import was made from.
 import type { ProductSizeChart } from "@/types/product";
 
 const sizes = ["XS", "S", "M", "L", "XL"];

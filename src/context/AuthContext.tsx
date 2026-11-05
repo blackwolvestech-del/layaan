@@ -1,14 +1,14 @@
+// Customer accounts on Supabase Auth (the same project as the CRM). A storefront sign-up is
+// flagged `account_type: "customer"`, so the database creates/links a CRM customer record for it
+// once the email is confirmed — never a staff profile. Profile details live on that customer
+// record (my_customer / update_my_customer RPCs); marketing preferences stay on this device.
+import type { AuthError, Session } from "@supabase/supabase-js";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { defaultCustomer } from "@/data/accountData";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import type { Customer, CustomerPreferences } from "@/types/account";
 
-const AUTH_STORAGE_KEY = "layaan_demo_auth";
-
-interface StoredAuth {
-  isAuthenticated: boolean;
-  customer: Customer | null;
-  pendingVerificationEmail: string | null;
-}
+const PREFS_KEY = "layaan_customer_prefs";
+const PENDING_KEY = "layaan_pending_verification";
 
 interface RegisterInput {
   firstName: string;
@@ -17,206 +17,294 @@ interface RegisterInput {
   password?: string;
 }
 
+/** The customer's saved delivery details (CRM customer record). */
+export interface CustomerAddress {
+  address: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  country: string;
+}
+
 interface AuthContextType {
+  /** False until the stored session has been checked. */
+  ready: boolean;
   isAuthenticated: boolean;
   customer: Customer | null;
+  /** Saved address on the CRM customer record, when there is one. */
+  savedAddress: CustomerAddress | null;
   pendingVerificationEmail: string | null;
   login: (email: string, password?: string) => Promise<boolean>;
+  /** Removed: there is no demo account on the live shop. Kept so older callers compile. */
   loginAsDemo: () => void;
   register: (data: RegisterInput) => Promise<{ success: boolean; email: string }>;
-  verifyEmail: (code: string) => Promise<boolean>;
-  resendVerification: () => Promise<boolean>;
+  verifyEmail: (code: string, email?: string) => Promise<boolean>;
+  resendVerification: (email?: string) => Promise<boolean>;
   logout: () => void;
-  updateProfile: (data: Partial<Customer>) => void;
+  updateProfile: (data: Partial<Customer> & { address?: Partial<CustomerAddress> }) => Promise<void>;
   updatePreferences: (prefs: Partial<CustomerPreferences>) => void;
   forgotPassword: (email: string) => Promise<boolean>;
   resetPassword: (password: string) => Promise<boolean>;
+  /** Reloads the customer record (e.g. after checkout updated the saved address). */
+  refreshCustomer: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-function getInitialAuth(): StoredAuth {
+const defaultPrefs: CustomerPreferences = { emailNewsletter: false, orderUpdates: true, exclusiveEvents: false, preferredLanguage: "English" };
+
+function readPrefs(): CustomerPreferences {
   try {
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (typeof parsed === "object" && parsed !== null) {
-        return parsed;
-      }
-    }
+    const raw = localStorage.getItem(PREFS_KEY);
+    if (raw) return { ...defaultPrefs, ...(JSON.parse(raw) as Partial<CustomerPreferences>) };
   } catch {
-    /* fallback */
+    /* ignore */
   }
-  // Default to authenticated demo customer for frictionless evaluation
+  return defaultPrefs;
+}
+
+function readPending(): string | null {
+  try {
+    return sessionStorage.getItem(PENDING_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function writePending(email: string | null) {
+  try {
+    if (email) sessionStorage.setItem(PENDING_KEY, email);
+    else sessionStorage.removeItem(PENDING_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+interface DbCustomer {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  address: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  country: string;
+  createdAt: string;
+}
+
+function toCustomer(session: Session, row: DbCustomer | null, prefs: CustomerPreferences): Customer {
+  const meta = (session.user.user_metadata ?? {}) as { full_name?: string; first_name?: string; last_name?: string };
+  const fullName = (row?.name || meta.full_name || `${meta.first_name ?? ""} ${meta.last_name ?? ""}`).trim() || (session.user.email ?? "").split("@")[0]!;
+  const [first = "", ...rest] = fullName.split(/\s+/);
+  const lastName = rest.join(" ");
+  const joined = row?.createdAt ?? session.user.created_at;
   return {
-    isAuthenticated: true,
-    customer: defaultCustomer,
-    pendingVerificationEmail: null,
+    id: row?.id ?? session.user.id,
+    firstName: first,
+    lastName,
+    email: session.user.email ?? row?.email ?? "",
+    phone: row?.phone ?? "",
+    memberTier: "Client",
+    joinedDate: new Date(joined).toLocaleDateString("en-GB", { month: "long", year: "numeric" }),
+    avatarInitials: `${first[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase() || "L",
+    preferences: prefs,
   };
 }
 
+/** Customer-friendly wording for Supabase Auth errors. */
+function authMessage(error: AuthError): string {
+  const m = error.message.toLowerCase();
+  if (m.includes("invalid login")) return "That email and password don't match an account.";
+  if (m.includes("email not confirmed")) return "Please confirm your email address first — we've sent you a code.";
+  if (m.includes("already registered") || m.includes("already been registered")) return "An account with this email already exists. Please sign in.";
+  if (m.includes("signups not allowed") || m.includes("signup is disabled")) return "New accounts can't be created right now. Please try again later.";
+  if (m.includes("rate limit") || error.status === 429) return "Too many attempts. Please wait a minute and try again.";
+  if (m.includes("password")) return error.message;
+  if (m.includes("token") || m.includes("otp")) return "That code is invalid or has expired. Request a new one.";
+  return "Something went wrong. Please try again.";
+}
+
+export class AuthFailure extends Error {
+  override name = "AuthFailure";
+  constructor(
+    message: string,
+    readonly unconfirmed = false,
+  ) {
+    super(message);
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [authState, setAuthState] = useState<StoredAuth>(getInitialAuth);
+  const [session, setSession] = useState<Session | null>(null);
+  const [ready, setReady] = useState(!isSupabaseConfigured);
+  const [row, setRow] = useState<DbCustomer | null>(null);
+  const [prefs, setPrefs] = useState<CustomerPreferences>(readPrefs);
+  const [pendingVerificationEmail, setPending] = useState<string | null>(readPending);
+
+  const loadCustomer = useCallback(async () => {
+    const { data, error } = await supabase().rpc("my_customer");
+    setRow(error ? null : ((data as DbCustomer | null) ?? null));
+  }, []);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+    const client = supabase();
+    let live = true;
+    client.auth.getSession().then(({ data }) => {
+      if (!live) return;
+      setSession(data.session);
+      setReady(true);
+    });
+    const { data: sub } = client.auth.onAuthStateChange((_event, next) => {
+      if (live) setSession(next);
+    });
+    return () => {
+      live = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
+  // The customer record follows the session (it is created/linked once the email is confirmed).
+  useEffect(() => {
+    if (!session) {
+      setRow(null);
+      return;
+    }
+    void loadCustomer();
+  }, [session, loadCustomer]);
 
   useEffect(() => {
     try {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authState));
+      localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
     } catch {
       /* ignore */
     }
-  }, [authState]);
+  }, [prefs]);
 
-  const login = useCallback(async (email: string): Promise<boolean> => {
-    // Simulate brief network latency for realistic feel
-    await new Promise((r) => setTimeout(r, 450));
-    setAuthState((prev) => ({
-      isAuthenticated: true,
-      customer: prev.customer
-        ? { ...prev.customer, email: email || prev.customer.email }
-        : {
-            ...defaultCustomer,
-            email: email || defaultCustomer.email,
-          },
-      pendingVerificationEmail: null,
-    }));
-    return true;
+  const setPendingEmail = useCallback((email: string | null) => {
+    writePending(email);
+    setPending(email);
   }, []);
+
+  const login = useCallback(
+    async (email: string, password?: string): Promise<boolean> => {
+      const { error } = await supabase().auth.signInWithPassword({ email: email.trim(), password: password ?? "" });
+      if (error) {
+        const unconfirmed = error.message.toLowerCase().includes("email not confirmed");
+        if (unconfirmed) setPendingEmail(email.trim());
+        throw new AuthFailure(authMessage(error), unconfirmed);
+      }
+      setPendingEmail(null);
+      return true;
+    },
+    [setPendingEmail],
+  );
 
   const loginAsDemo = useCallback(() => {
-    setAuthState({
-      isAuthenticated: true,
-      customer: defaultCustomer,
-      pendingVerificationEmail: null,
-    });
+    /* No demo account on the live shop. */
   }, []);
 
-  const register = useCallback(async (data: RegisterInput): Promise<{ success: boolean; email: string }> => {
-    await new Promise((r) => setTimeout(r, 500));
-    const initials = `${data.firstName[0] || "L"}${data.lastName[0] || "A"}`.toUpperCase();
-    const newCustomer: Customer = {
-      id: `cust_${Date.now()}`,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      phone: "+44 20 7000 0000",
-      memberTier: "Client",
-      joinedDate: new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" }),
-      avatarInitials: initials,
-      preferences: {
-        emailNewsletter: true,
-        orderUpdates: true,
-        exclusiveEvents: false,
-        preferredLanguage: "English (UK)",
-      },
-    };
+  const register = useCallback(
+    async (data: RegisterInput) => {
+      const email = data.email.trim().toLowerCase();
+      const { data: res, error } = await supabase().auth.signUp({
+        email,
+        password: data.password ?? "",
+        options: {
+          // Marks this as a shop customer (see migration 20261105000014): no CRM staff profile is created.
+          data: { account_type: "customer", full_name: `${data.firstName} ${data.lastName}`.trim(), first_name: data.firstName.trim(), last_name: data.lastName.trim() },
+          emailRedirectTo: `${window.location.origin}/account`,
+        },
+      });
+      if (error) throw new AuthFailure(authMessage(error));
+      // With email confirmation on, there is no session until the code/link is confirmed.
+      if (!res.session) setPendingEmail(email);
+      return { success: true, email };
+    },
+    [setPendingEmail],
+  );
 
-    setAuthState({
-      isAuthenticated: false,
-      customer: newCustomer,
-      pendingVerificationEmail: data.email,
-    });
-
-    return { success: true, email: data.email };
-  }, []);
-
-  const verifyEmail = useCallback(async (code: string): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 400));
-    // Accepts any 6-digit code or "123456" for demo
-    if (code.trim().length >= 4) {
-      setAuthState((prev) => ({
-        ...prev,
-        isAuthenticated: true,
-        pendingVerificationEmail: null,
-      }));
+  const verifyEmail = useCallback(
+    async (code: string, forEmail?: string): Promise<boolean> => {
+      const email = forEmail?.trim() || pendingVerificationEmail;
+      if (!email) return false;
+      const { error } = await supabase().auth.verifyOtp({ email, token: code.trim(), type: "signup" });
+      if (error) return false;
+      setPendingEmail(null);
       return true;
-    }
-    return false;
-  }, []);
+    },
+    [pendingVerificationEmail, setPendingEmail],
+  );
 
-  const resendVerification = useCallback(async (): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 300));
-    return true;
-  }, []);
+  const resendVerification = useCallback(async (forEmail?: string): Promise<boolean> => {
+    const email = forEmail?.trim() || pendingVerificationEmail;
+    if (!email) return false;
+    const { error } = await supabase().auth.resend({ type: "signup", email, options: { emailRedirectTo: `${window.location.origin}/account` } });
+    return !error;
+  }, [pendingVerificationEmail]);
 
   const logout = useCallback(() => {
-    setAuthState((prev) => ({
-      ...prev,
-      isAuthenticated: false,
-      pendingVerificationEmail: null,
-    }));
+    void supabase().auth.signOut();
+    setSession(null);
   }, []);
 
-  const updateProfile = useCallback((data: Partial<Customer>) => {
-    setAuthState((prev) => {
-      if (!prev.customer) return prev;
-      const initials = `${(data.firstName || prev.customer.firstName)[0] || ""}${(data.lastName || prev.customer.lastName)[0] || ""}`.toUpperCase();
-      return {
-        ...prev,
-        customer: {
-          ...prev.customer,
-          ...data,
-          avatarInitials: initials || prev.customer.avatarInitials,
-        },
-      };
-    });
-  }, []);
-
-  const updatePreferences = useCallback((prefs: Partial<CustomerPreferences>) => {
-    setAuthState((prev) => {
-      if (!prev.customer) return prev;
-      return {
-        ...prev,
-        customer: {
-          ...prev.customer,
-          preferences: {
-            ...prev.customer.preferences,
-            ...prefs,
-          },
-        },
-      };
-    });
-  }, []);
-
-  const forgotPassword = useCallback(async (_email: string): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 500));
-    return true;
-  }, []);
-
-  const resetPassword = useCallback(async (_password: string): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 500));
-    return true;
-  }, []);
-
-  const value = useMemo<AuthContextType>(
-    () => ({
-      isAuthenticated: authState.isAuthenticated,
-      customer: authState.customer,
-      pendingVerificationEmail: authState.pendingVerificationEmail,
-      login,
-      loginAsDemo,
-      register,
-      verifyEmail,
-      resendVerification,
-      logout,
-      updateProfile,
-      updatePreferences,
-      forgotPassword,
-      resetPassword,
-    }),
-    [
-      authState,
-      login,
-      loginAsDemo,
-      register,
-      verifyEmail,
-      resendVerification,
-      logout,
-      updateProfile,
-      updatePreferences,
-      forgotPassword,
-      resetPassword,
-    ],
+  const updateProfile = useCallback(
+    async (data: Partial<Customer> & { address?: Partial<CustomerAddress> }) => {
+      const input: Record<string, string> = {};
+      if (data.firstName !== undefined || data.lastName !== undefined) {
+        const current = session ? toCustomer(session, row, prefs) : null;
+        input.name = `${data.firstName ?? current?.firstName ?? ""} ${data.lastName ?? current?.lastName ?? ""}`.trim();
+      }
+      if (data.phone !== undefined) input.phone = data.phone;
+      if (data.address) Object.assign(input, data.address);
+      const { data: updated, error } = await supabase().rpc("update_my_customer", { p_input: input });
+      if (error) throw new AuthFailure(error.message);
+      setRow(updated as DbCustomer);
+    },
+    [session, row, prefs],
   );
+
+  const updatePreferences = useCallback((next: Partial<CustomerPreferences>) => {
+    setPrefs((prev) => ({ ...prev, ...next }));
+  }, []);
+
+  const forgotPassword = useCallback(async (email: string): Promise<boolean> => {
+    const { error } = await supabase().auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/reset-password` });
+    if (error && error.status === 429) throw new AuthFailure(authMessage(error));
+    // Always report success so the form never reveals whether an account exists.
+    return true;
+  }, []);
+
+  const resetPassword = useCallback(async (password: string): Promise<boolean> => {
+    // Works in the recovery session opened by the reset link (or for a signed-in customer).
+    const { error } = await supabase().auth.updateUser({ password });
+    if (error) throw new AuthFailure(authMessage(error));
+    return true;
+  }, []);
+
+  const value = useMemo<AuthContextType>(() => {
+    const customer = session ? toCustomer(session, row, prefs) : null;
+    const savedAddress = row && (row.address || row.city) ? { address: row.address, city: row.city, province: row.province, postalCode: row.postalCode, country: row.country } : null;
+    return {
+      ready,
+      isAuthenticated: !!session,
+      customer,
+      savedAddress,
+      pendingVerificationEmail,
+      login,
+      loginAsDemo,
+      register,
+      verifyEmail,
+      resendVerification,
+      logout,
+      updateProfile,
+      updatePreferences,
+      forgotPassword,
+      resetPassword,
+      refreshCustomer: loadCustomer,
+    };
+  }, [session, row, prefs, ready, pendingVerificationEmail, login, loginAsDemo, register, verifyEmail, resendVerification, logout, updateProfile, updatePreferences, forgotPassword, resetPassword, loadCustomer]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

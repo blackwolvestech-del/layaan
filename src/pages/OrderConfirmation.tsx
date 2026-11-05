@@ -10,6 +10,7 @@ import { Reveal } from "@/components/ui/misc";
 import { useAsync } from "@/hooks/useAsync";
 import { useOrderViewer } from "@/hooks/useOrderViewer";
 import { orderService } from "@/services";
+import { estimateDelivery } from "@/services/supabase";
 
 function Frame({ children }: { children: ReactNode }) {
   return (
@@ -124,7 +125,7 @@ export default function OrderConfirmation() {
           <div>
             <h2 className="nav-caps mb-2 text-muted">Delivery</h2>
             <p className="text-sm font-semibold">{order.shippingMethod.label}</p>
-            <p className="mt-1 text-sm text-ink-2">Estimated delivery: {order.shippingMethod.estimate ?? "to be confirmed"}</p>
+            <p className="mt-1 text-sm text-ink-2">Estimated delivery: {estimateDelivery(order) ?? "to be confirmed"}</p>
           </div>
           <div>
             <h2 className="nav-caps mb-2 text-muted">Payment</h2>
