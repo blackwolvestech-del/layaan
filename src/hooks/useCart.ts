@@ -2,7 +2,7 @@
 // sizes, quantities and custom measurements are stored; names, photos and prices are always read
 // from the catalogue.
 import { useMemo } from "react";
-import { MAX_QUANTITY, offerFor } from "@/data/commerce";
+import { MAX_QUANTITY, offerFor, variantFor } from "@/data/commerce";
 import { productById } from "@/data/products";
 import type { Cart, CartItem, CartLine, LineSize, Money } from "@/types/commerce";
 import type { CustomMeasurements } from "@/types/measurements";
@@ -10,7 +10,6 @@ import { createLocalStore, isRecord } from "@/utils/localStore";
 import { CUSTOM_SIZE, isValidCustomMeasurements, measurementsKey } from "@/utils/measurements";
 
 export const CART_KEY = "layaan-demo-cart";
-const SIZE_IDS = new Set<string>(["XS", "S", "M", "L", "XL"]);
 const empty: Cart = { items: [], updatedAt: new Date(0).toISOString() };
 
 /**
@@ -19,9 +18,16 @@ const empty: Cart = { items: [], updatedAt: new Date(0).toISOString() };
  */
 export function fitsProduct(productId: string, size: unknown, measurements: unknown): boolean {
   const product = productById(productId);
-  if (!product) return typeof size === "string" && SIZE_IDS.has(size) && measurements === undefined;
+  if (!product) return false;
   if (product.measurementProfile) return size === CUSTOM_SIZE && isValidCustomMeasurements(product.measurementProfile, measurements);
-  return typeof size === "string" && SIZE_IDS.has(size) && measurements === undefined;
+  return typeof size === "string" && !!variantFor(productId, size) && measurements === undefined;
+}
+
+/** Unit price of a line: the size's own price when the CRM sets one, else the product price. */
+export function unitPriceFor(productId: string, size: string): Money | undefined {
+  const offer = offerFor(productId);
+  if (!offer) return undefined;
+  return size === CUSTOM_SIZE ? offer.price : (variantFor(productId, size)?.price ?? offer.price);
 }
 
 export function parseCart(raw: unknown): Cart {
@@ -57,9 +63,9 @@ export const removeItem = (items: CartItem[], key: string) => items.filter((i) =
 export function resolveLines(items: CartItem[]): CartLine[] {
   return items.flatMap((i) => {
     const product = productById(i.productId);
-    const offer = offerFor(i.productId);
-    if (!product || !offer || !fitsProduct(i.productId, i.size, i.measurements)) return [];
-    return [{ ...i, key: keyOf(i), product, unitPrice: offer.price, lineTotal: offer.price * i.quantity }];
+    const unitPrice = unitPriceFor(i.productId, i.size);
+    if (!product || unitPrice === undefined || !fitsProduct(i.productId, i.size, i.measurements)) return [];
+    return [{ ...i, key: keyOf(i), product, unitPrice, lineTotal: unitPrice * i.quantity }];
   });
 }
 

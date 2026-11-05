@@ -10,7 +10,7 @@ export function Price({ amount, className }: { amount: Money; className?: string
 }
 
 /** Size choice as a native radio group, styled as chips (arrow keys work out of the box). */
-export function SizeSelector({ sizes, value, onChange, error, name, compact, legendAction }: { sizes: SizeId[]; value: SizeId | null; onChange: (s: SizeId) => void; error?: string | undefined; name?: string; compact?: boolean; legendAction?: ReactNode }) {
+export function SizeSelector({ sizes, value, onChange, error, name, compact, legendAction, isAvailable }: { sizes: SizeId[]; value: SizeId | null; onChange: (s: SizeId) => void; error?: string | undefined; name?: string; compact?: boolean; legendAction?: ReactNode; /** Sold-out sizes are shown but can't be chosen. */ isAvailable?: (s: SizeId) => boolean }) {
   const auto = useId();
   const errorId = `${auto}-error`;
   return (
@@ -21,20 +21,25 @@ export function SizeSelector({ sizes, value, onChange, error, name, compact, leg
       </legend>
       {legendAction && <div className="float-right mb-3 flex min-h-8 items-center">{legendAction}</div>}
       <div className="clear-both flex flex-wrap gap-2">
-        {sizes.map((s) => (
-          <label key={s} className="relative">
-            <input type="radio" name={name ?? auto} value={s} checked={value === s} onChange={() => onChange(s)} className="peer sr-only" aria-invalid={error ? true : undefined} />
-            <span
-              className={clsx(
-                "grid cursor-pointer place-items-center rounded-[2px] border text-xs font-semibold tracking-[0.1em] transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)]",
-                compact ? "h-10 min-w-10 px-2" : "h-12 min-w-14 px-3",
-                value === s ? "border-ink bg-ink text-bg" : error ? "border-danger text-ink hover:border-ink" : "border-line-strong text-ink hover:border-ink",
-              )}
-            >
-              {s}
-            </span>
-          </label>
-        ))}
+        {sizes.map((s) => {
+          const soldOut = isAvailable ? !isAvailable(s) : false;
+          return (
+            <label key={s} className="relative" title={soldOut ? `${s} — sold out` : undefined}>
+              <input type="radio" name={name ?? auto} value={s} checked={value === s} onChange={() => onChange(s)} disabled={soldOut} className="peer sr-only" aria-invalid={error ? true : undefined} aria-label={soldOut ? `${s}, sold out` : undefined} />
+              <span
+                className={clsx(
+                  "grid place-items-center rounded-[2px] border text-xs font-semibold tracking-[0.1em] transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--focus)]",
+                  compact ? "h-10 min-w-10 px-2" : "h-12 min-w-14 px-3",
+                  soldOut
+                    ? "cursor-not-allowed border-line text-muted line-through opacity-50"
+                    : clsx("cursor-pointer", value === s ? "border-ink bg-ink text-bg" : error ? "border-danger text-ink hover:border-ink" : "border-line-strong text-ink hover:border-ink"),
+                )}
+              >
+                {s}
+              </span>
+            </label>
+          );
+        })}
       </div>
       {error && (
         <p id={errorId} role="alert" className="mt-2 text-xs text-danger">

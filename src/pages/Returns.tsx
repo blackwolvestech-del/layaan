@@ -209,7 +209,7 @@ export default function Returns() {
                     <p className="mt-3 text-sm text-ink-2">
                       Reference <span className="font-mono font-semibold">{done.id}</span> for order <span className="font-mono">{done.orderId}</span>.
                     </p>
-                    <p className="mt-2 max-w-sm text-xs text-muted">In this preview the request is saved in this browser only; no one is notified.</p>
+                    <p className="mt-2 max-w-sm text-xs text-muted">Your request has been sent to the atelier, who will contact you about collection.</p>
                     <div className="mt-6 flex flex-wrap justify-center gap-3">
                       <ButtonLink to={`/account/orders/${done.orderId}`}>View order</ButtonLink>
                       <Button
@@ -239,7 +239,7 @@ export default function Returns() {
                         title="No items eligible for return"
                         body={
                           <>
-                            Returns can be requested for delivered orders placed on this device. Check the status of an order in <Link to="/account/orders" className="underline underline-offset-2">your orders</Link>.
+                            Returns can be requested for delivered orders in your account, or placed in this browser session. Check the status of an order in <Link to="/account/orders" className="underline underline-offset-2">your orders</Link>.
                           </>
                         }
                       />

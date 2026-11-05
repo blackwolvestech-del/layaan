@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useMemo, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router";
 import { Field, fieldAria, Notice, Price } from "@/components/commerce/controls";
 import { formatLineSize, MeasurementSummary } from "@/components/commerce/CustomSize";
@@ -11,9 +11,10 @@ import { Modal } from "@/components/ui/Drawer";
 import { Icon } from "@/components/ui/Icon";
 import { Img } from "@/components/ui/Img";
 import { EmptyState, Tag } from "@/components/ui/misc";
-import { formatMoney, paymentMethods, shippingMethodById, shippingMethods } from "@/data/commerce";
+import { refreshProducts } from "@/data/catalogStore";
+import { formatMoney, paymentMethods, shippingCostFor, shippingMethodById, shippingMethods } from "@/data/commerce";
 import { useAuth } from "@/context/AuthContext";
-import { useCart } from "@/context/CartContext";
+import { stockIssueFor, useCart } from "@/context/CartContext";
 import { resolveLines } from "@/hooks/useCart";
 import { orderService } from "@/services";
 import type { CartLine, PaymentOption } from "@/types/commerce";
@@ -135,15 +136,41 @@ export default function Checkout() {
   const [submitted, setSubmitted] = useState(false);
   const [placing, setPlacing] = useState(false);
   const [placedId, setPlacedId] = useState<string | null>(null);
-  const { isAuthenticated, customer } = useAuth();
+  const { isAuthenticated, customer, savedAddress } = useAuth();
+  // Signed-in customers start with their saved contact and delivery details.
+  const prefilled = useRef(false);
+  useEffect(() => {
+    if (prefilled.current || !isAuthenticated || !customer) return;
+    prefilled.current = true;
+    setValues((v) => ({
+      ...v,
+      email: v.email || customer.email,
+      phone: v.phone || customer.phone,
+      firstName: v.firstName || customer.firstName,
+      lastName: v.lastName || customer.lastName,
+      line1: v.line1 || savedAddress?.address || "",
+      city: v.city || savedAddress?.city || "",
+      region: v.region || savedAddress?.province || "",
+      postalCode: v.postalCode || savedAddress?.postalCode || "",
+      country: v.country || (savedAddress?.country === "PK" ? "Pakistan" : savedAddress?.country) || "",
+    }));
+  }, [isAuthenticated, customer, savedAddress]);
   // One key per checkout visit: a retried or double-submitted attempt returns the same order.
   const attemptKey = useRef(newAttemptKey());
   const [failure, setFailure] = useState<string | null>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
+  const failureRef = useRef<HTMLDivElement>(null);
+  // A failed placement is announced and brought into view (the notice sits above the form).
+  useEffect(() => {
+    if (!failure) return;
+    failureRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    failureRef.current?.focus({ preventScroll: true });
+  }, [failure]);
   const [comingSoon, setComingSoon] = useState<PaymentOption | null>(null);
 
   const method = shippingMethodById(values.shippingMethodId) ?? shippingMethods[0]!;
-  const shipping = method.price;
+  // Same rule the database applies when the order is placed.
+  const shipping = shippingCostFor(method.id, subtotal);
   const total = subtotal + (shipping ?? 0);
   const liveErrors = validateCheckout(values);
   const stepDone = stepFields(values).map((fields) => fields.every((f) => !liveErrors[f]));
@@ -186,6 +213,17 @@ export default function Checkout() {
     }
     setPlacing(true);
     try {
+      // Re-check live stock for everything in the bag before sending the order.
+      await refreshProducts(lines.map((l) => l.productId));
+      const problems = lines.flatMap((l) => {
+        const issue = stockIssueFor({ productId: l.productId, selectedSize: l.size, quantity: l.quantity });
+        return issue ? [`${l.product.label} (${l.size === "Custom" ? "made to measure" : l.size}): ${issue.toLowerCase()}`] : [];
+      });
+      if (problems.length > 0) {
+        setFailure(`Some items in your bag are no longer available as selected — please update your bag. ${problems.join(" · ")}`);
+        setPlacing(false);
+        return;
+      }
       // Card fields are never sent or stored; only the chosen payment method is.
       const { cardName: _n, cardNumber: _c, expiry: _e, cvc: _v, shippingMethodId, paymentMethod, email, phone, ...address } = values;
       const order = await orderService.placeOrder({
@@ -253,7 +291,7 @@ export default function Checkout() {
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
         <form noValidate onSubmit={onSubmit} className="lg:col-span-7" aria-describedby="checkout-note">
           <Notice className="mb-8">
-            <span id="checkout-note">Preview checkout — no payment is taken and nothing is sent. Your order is saved in this browser.</span>
+            <span id="checkout-note">Pay by cash on delivery — nothing is charged now. Prices, stock and delivery are confirmed by the atelier when you place your order.</span>
           </Notice>
 
           <AnimatePresence>
@@ -285,9 +323,11 @@ export default function Checkout() {
             )}
           </AnimatePresence>
           {failure && (
-            <Notice tone="error" title="Your order couldn't be placed" className="mb-8">
-              {failure}
-            </Notice>
+            <div ref={failureRef} tabIndex={-1} className="scroll-mt-28 outline-none">
+              <Notice tone="error" title="Your order couldn't be placed" className="mb-8">
+                {failure}
+              </Notice>
+            </div>
           )}
 
           <div className="space-y-10">
@@ -339,7 +379,7 @@ export default function Checkout() {
                     <span className="flex-1">
                       <span className="flex flex-wrap items-baseline justify-between gap-2">
                         <span className="text-sm font-semibold">{m.label}</span>
-                        <span className={clsx("text-sm tabular-nums", values.shippingMethodId === m.id ? "font-semibold text-ink" : "text-ink-2")}>{m.price === null ? "Rate to be confirmed" : <Price amount={m.price} />}</span>
+                        <span className={clsx("text-sm tabular-nums", values.shippingMethodId === m.id ? "font-semibold text-ink" : "text-ink-2")}>{shippingCostFor(m.id, subtotal) === 0 ? "Free" : <Price amount={shippingCostFor(m.id, subtotal)} />}</span>
                       </span>
                       <span className="mt-1 block text-xs text-muted">{m.estimate ?? m.description}</span>
                     </span>

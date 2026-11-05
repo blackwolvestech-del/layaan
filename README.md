@@ -1,8 +1,9 @@
-# LAYAAN Atelier — storefront demo
+# LAYAAN Atelier — storefront
 
-A **frontend-only**, multi-page demonstration of the LAYAAN Atelier storefront, built for client
-approval. It runs entirely as a static React site: no server, database, accounts, payments, email
-or API. Backend development starts only after the demo is approved.
+The LAYAAN Atelier website. It shares **one Supabase database with the LAYAAN CRM**
+(`../Lyaan-CRM`): products, photos, prices and per-size stock are managed in the CRM and read
+live here; orders placed here appear in the CRM immediately, and status changes made in the CRM
+show on the customer's order pages.
 
 The interface follows a modern fashion-retail layout (announcement ticker, centred logo, uppercase
 navigation with a mega menu, full-width hero slider, category tiles, product carousels, "shop the
@@ -18,7 +19,8 @@ Requires Node.js 22.12 or newer. Everything runs from the project root.
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
+cp .env.example .env.local   # then fill in the values (see "Environment variables")
+npm run dev        # http://localhost:5173 — also serves the /api functions locally
 npm run build      # type-check + production build into dist/
 npm run preview    # serve the production build at http://localhost:4173
 ```
@@ -27,7 +29,8 @@ npm run preview    # serve the production build at http://localhost:4173
 | --- | --- |
 | `npm run typecheck` | TypeScript project check (`tsc -b`) |
 | `npm run lint` | ESLint |
-| `npm test` | Unit tests (Vitest + jsdom) |
+| `npm test` | Unit tests (Vitest + jsdom, against an in-memory fake of the database/API) |
+| `npm run catalog:fixture` | Refreshes `tests/fixtures/catalog.json` from the live catalogue |
 | `npm run assets:build` | Regenerates optimised images/video from `assets/source/` (see below) |
 | `npm run assets:contact-sheets` | Labelled contact sheets of the original photos, for cataloguing |
 
@@ -81,7 +84,7 @@ assets/
 - **Motion:** shared durations and easings in `src/utils/motion.ts`. Everything honours
   `prefers-reduced-motion` (`MotionConfig reducedMotion="user"` plus CSS fallbacks).
 
-## What the demo does
+## What the site does
 
 - Multi-page navigation with page transitions, scroll-to-top and focus moved to the new page.
 - Announcement ticker, sticky header that compacts on scroll, and a collections mega menu
@@ -145,42 +148,97 @@ To add a page: create it in `src/pages/`, register it in the `routes` array in `
 (lazy-loaded like the others), start it with `PageHeader`, and add any links to
 `src/components/layout/nav.ts`.
 
-## Demo data
+## Supabase integration
 
-`src/data/catalog.generated.json` is produced by `scripts/assets` from the local photographs.
-The 117 photographs were grouped visually into **13 looks** (plus 4 two-look editorial shots);
-the 6 photos of a removed look are listed in `excludedPhotos`. See `scripts/assets/catalog.mjs`. Look names are **descriptive labels**, not official product names.
-Nothing about prices, fabrics, care, sizes, origin, founders, offers or reviews is stated anywhere.
+### Architecture
 
-Editable content:
-- Hero slides and homepage carousels — `src/data/copy.ts` (`heroSlides`, `homeRails`)
-- Brand introduction and pillars — `src/data/copy.ts` (`copy.intro`)
-- Collection covers, lookbook strip and gallery photos — `src/data/assets.ts`
-- Navigation and announcement ticker — `src/components/layout/nav.ts`
+```
+Browser (Vite SPA)                         Vercel Functions (/api, server only)          Supabase (shared with CRM)
+───────────────────                        ──────────────────────────────────           ──────────────────────────
+catalogue  ── rpc storefront_catalog ───────────────────────────────────────────────▶  products, product_images,
+              rpc storefront_product / storefront_settings  (anon, read-only)           product_variants, store_settings
+account    ── Supabase Auth + rpc my_customer / my_orders / my_order (own data only) ▶  customers, orders, order_items…
+checkout   ── POST /api/orders ─────────▶  service key → rpc create_storefront_order ─▶  orders + items + stock − + CRM notification
+tracking   ── POST /api/orders/lookup ──▶  service key → rpc storefront_order_lookup
+returns    ── POST /api/returns ────────▶  service key → rpc storefront_request_return ▶ order activity + CRM notification
+```
 
-To connect a real backend after approval, provide data in the shapes defined in `src/types/`
-and replace the imports in `src/data/`; components receive plain props and don't fetch anything.
+* **Tables stay closed to the public.** The browser never queries tables; it calls SECURITY
+  DEFINER functions that return a fixed public shape (ACTIVE products only, no staff notes).
+* **The service key never reaches the browser.** It is a server-only variable read by `api/_lib/server.ts`.
+* SQL lives in the CRM repo: `../Lyaan-CRM/supabase/migrations/20261105000012…14` (image rules,
+  size inventory, storefront access). All three are applied to the live project.
+
+### Products, images and categories
+
+* `src/data/catalogStore.ts` loads the catalogue before the app renders (branded loading/error
+  screen in `src/main.tsx`), maps rows onto the existing `Product` shape, refreshes on tab focus
+  (after 60 s), and re-reads a product on its page and every bag product before checkout.
+* Product URLs are unchanged: `/products/<key>`, where `key` is the product's `legacy_id` (the
+  original look key) or its slug for products created in the CRM.
+* **Collections and categories keep the site's own names, order, banners and images**
+  (`catalog.generated.json`). The CRM assigns products to them by the same identifiers:
+  category slug (`suits-co-ords`, `tops-blouses`, `longline-styles`) and collection keys in
+  `products.collections` (`tailoring`, `statement-sleeves`, `occasion`, `everyday-to-evening`).
+  Empty sections show the existing empty state.
+* Images keep their stored order (position 0 = card/cover). URLs pointing at the site's own
+  `/images/products/...` use the optimised AVIF/WebP derivatives; images uploaded in the CRM
+  (`/uploads/...`) are served from the public Supabase Storage bucket `uploads`.
+* Display order: products newly created in the CRM first (newest first), then the original looks
+  in the site's existing editorial order. Shop sorting/filters work on the live data.
+
+### Inventory, cart and checkout
+
+* Stock is per size (`product_variants.stock`). Sold-out sizes are shown struck through and can't
+  be selected; quantities are capped at the size's stock; the bag flags lines that are sold out
+  or over stock; checkout re-checks live stock before sending.
+* The database is the authority: `create_storefront_order` locks each size row, recomputes
+  prices, delivery (standard/express/free threshold from store settings) and totals, refuses to
+  oversell, creates the order, items, status event and CRM notification, and deducts stock — all
+  in one transaction, idempotent on the checkout attempt key. Orders are cash on delivery and
+  start as payment **PENDING**; nothing is ever marked paid by the storefront.
+* Made-to-measure products (`measurement_profile`) take the customer's measurements (inches);
+  they are stored on the order item with production status `QUEUED` and never touch size stock.
+* Cancelling/returning an order in the CRM restores the size stock (`update_order_status`).
+
+### Customer accounts
+
+* Supabase Auth. Sign-up sends `account_type: "customer"`; the database then creates/links a
+  `customers` row (once the email is confirmed) instead of a CRM staff profile, so customers have
+  no CRM access. Guest orders with the same email appear in the account after confirmation.
+* Order history and details use `my_orders` / `my_order` (only the caller's orders). Guests see
+  their confirmation during the visit and can track with order number + checkout email/phone.
+* The default address is stored on the CRM customer record; extra addresses are a device-only
+  address book. Communication preferences are device-only.
+
+### Required Supabase dashboard settings
+
+1. **Authentication → Providers → Email:** enable sign-ups (the CRM disabled public sign-up).
+2. **Authentication → Email Templates → Confirm signup:** include `{{ .Token }}` so customers get
+   the 6-digit code the verify page asks for (the link in the same email also works).
+3. **Authentication → URL Configuration:** add the storefront origins (e.g.
+   `https://layaan.vercel.app/**`, `http://localhost:5173/**`) to the redirect allow list so
+   confirmation and password-reset links return to the site.
+
+## Environment variables
+
+| Name | Where | Purpose |
+| --- | --- | --- |
+| `VITE_SUPABASE_URL` | browser + server | Project URL (same as the CRM) |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | browser + server | Publishable/anon key (`VITE_SUPABASE_ANON_KEY` also accepted) |
+| `SUPABASE_SERVICE_ROLE_KEY` | **server only** | Used by `/api` to place and look up orders. Never prefix with `VITE_` |
+| `VITE_CRM_URL` | browser (optional) | CRM origin, linked from `/admin` |
+
+`.env.local` is git-ignored; `.env.example` lists the names with placeholders.
 
 ## Made-to-measure sizing and the back office
 
-- Every product **without** a size chart (`src/data/sizeCharts.ts`) gets a `measurementProfile`
-  derived from its pieces (`measurementProfileFor` in `src/utils/measurements.ts`): `upper`
-  (10 fields), `trouser` (8) or `two-piece` (both). Its purchase panel offers "Customize your size"
-  instead of XS–XL. Products with a chart are unchanged.
-- Entries in progress are kept per product for the browser session; once added, measurements (inches)
-  are stored on the bag line, copied onto the order item and shown in the bag, checkout,
-  confirmation, Account → Orders and `/admin/orders/:id` ("Custom Size Measurements").
-- Order access: an order is visible to the signed-in account that placed it and to the browser
-  session that placed it (`canViewOrder` in `src/services/local.ts`). Checkout sends an idempotency
-  key so a retry never creates a second order, and an order is only confirmed once it has been saved.
-- Back office: set `VITE_ADMIN_ACCESS_CODE` (e.g. in a git-ignored `.env.development.local`, or in
-  the hosting environment). Without it `/admin` shows "Admin access is not configured".
-
-**Preview limitation:** there is no backend yet, so orders live in each browser's `localStorage`
-and the admin code is compiled into the client bundle. This gates the screens but is not real
-security, and the admin only sees orders stored in the same browser. Before launch, implement
-`OrderService` and `AdminOrderService` (`src/services/types.ts`) against an API that authenticates
-customers and administrators and enforces the same ownership rule server-side.
+- Products with a `measurement_profile` (`upper`, `trouser`, `two-piece`) offer "Customize your
+  size" with the matching fields; others use their size chart and per-size stock.
+- Entries in progress are kept per product for the browser session; measurements are stored on
+  the bag line and saved with the order item, shown in the bag, checkout, confirmation, the
+  customer's order pages and the CRM (Orders / Custom orders).
+- The back office is the **LAYAAN CRM**. The storefront's `/admin` routes now point there.
 
 ## Regenerating media
 
@@ -195,10 +253,20 @@ This writes AVIF/WebP at 480/800/1200/1800 px widths plus a 1200 px JPEG fallbac
 `assets/manifest.json` and `src/data/catalog.generated.json`. Existing outputs are skipped, so
 re-runs are quick; a full rebuild from scratch takes a long time because of AVIF encoding.
 
-## Deployment
+## Deployment (Vercel)
 
-`npm run build` outputs a static site in `dist/`. Because routes are handled in the browser,
-the host must serve `index.html` for unknown paths so deep links and refreshes work:
-`public/_redirects` does this on Netlify/Cloudflare Pages; on other hosts configure an equivalent
-SPA fallback (e.g. a Vercel rewrite of `/(.*)` to `/index.html`). `npm run preview` already does
-this locally. The site carries `noindex` while it is a demo.
+* Framework preset **Vite**; build `npm run build`; output `dist/`. Functions in `/api` deploy
+  automatically (Node.js runtime).
+* `vercel.json` rewrites every path **except `/api/*`** to `index.html` (SPA routing).
+* Set the variables from "Environment variables" for Production and Preview, then redeploy.
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| "We couldn't load the collection" on start | `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY` set at build time; project not paused |
+| "The order service isn't reachable" at checkout | `/api` deployed (not rewritten to `index.html`); restart `npm run dev` after config changes |
+| "Order service is not configured" (503) | `SUPABASE_SERVICE_ROLE_KEY` missing on the server |
+| Every size shows sold out | Enter per-size stock in the CRM (Inventory) — new and imported products start at 0 |
+| Product missing from the shop | Product must be **Active** in the CRM (needs 4–9 images) |
+| Sign-up says accounts can't be created | Enable email sign-ups in Supabase Auth |

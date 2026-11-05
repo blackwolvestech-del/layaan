@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import { Link } from "react-router";
+import { dbImage } from "@/data/catalogStore";
 import { productById } from "@/data/products";
 import { STATUS_FLOW } from "@/services";
 import type { Money, Order, OrderItem, OrderStatus, PaymentMethodId, PaymentStatus, PaymentSummary, ShippingAddress, TrackingEvent } from "@/types/commerce";
@@ -18,6 +19,7 @@ export const statusLabel: Record<OrderStatus, string> = {
   "out-for-delivery": "Out for delivery",
   delivered: "Delivered",
   cancelled: "Cancelled",
+  returned: "Returned",
 };
 
 export const formatDate = (iso: string, withTime = false) =>
@@ -30,10 +32,10 @@ export function StatusBadge({ status }: { status: OrderStatus }) {
     <span
       className={clsx(
         "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.625rem] font-semibold tracking-[0.14em] uppercase",
-        status === "delivered" ? "border-success/40 text-success" : status === "cancelled" ? "border-danger/40 text-danger" : "border-gold/50 text-gold-ink",
+        status === "delivered" ? "border-success/40 text-success" : status === "cancelled" || status === "returned" ? "border-danger/40 text-danger" : "border-gold/50 text-gold-ink",
       )}
     >
-      <span aria-hidden className={clsx("h-1.5 w-1.5 rounded-full bg-current", status !== "delivered" && status !== "cancelled" && "animate-pulse")} />
+      <span aria-hidden className={clsx("h-1.5 w-1.5 rounded-full bg-current", status !== "delivered" && status !== "cancelled" && status !== "returned" && "animate-pulse")} />
       {statusLabel[status]}
     </span>
   );
@@ -78,6 +80,8 @@ export const paymentStatusLabel: Record<PaymentStatus, string> = {
   "not-charged": "Not charged (preview checkout)",
   authorised: "Authorised",
   paid: "Paid",
+  "partially-paid": "Partially paid",
+  failed: "Payment failed",
   refunded: "Refunded",
 };
 
@@ -102,7 +106,7 @@ export function PaymentDetails({ payment, total }: { payment: PaymentSummary; to
 
 function imageFor(item: OrderItem) {
   const product = productById(item.productId);
-  return product?.images.find((i) => i.id === item.imageId) ?? product?.images[0];
+  return product?.images.find((i) => i.id === item.imageId) ?? product?.images[0] ?? (item.imageUrl ? dbImage(item.imageUrl, item.label, 0) : undefined);
 }
 
 export function OrderItemRow({ item, action }: { item: OrderItem; action?: ReactNode }) {

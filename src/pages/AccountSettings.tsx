@@ -8,7 +8,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/misc";
 
 export default function AccountSettings() {
-  const { customer, updateProfile, updatePreferences, resetPassword, logout } = useAuth();
+  const { customer, updateProfile, updatePreferences, resetPassword, logout, login } = useAuth();
   const { toast } = useUi();
   const navigate = useNavigate();
 
@@ -39,11 +39,10 @@ export default function AccountSettings() {
   const handleSavePersonal = (e: React.FormEvent) => {
     e.preventDefault();
     setPersonalSaving(true);
-    setTimeout(() => {
-      updateProfile({ firstName, lastName, email, phone });
-      setPersonalSaving(false);
-      toast("Personal details updated successfully.");
-    }, 350);
+    updateProfile({ firstName, lastName, phone })
+      .then(() => toast("Personal details updated successfully."))
+      .catch((err: unknown) => toast(err instanceof Error ? err.message : "Your details couldn't be saved. Please try again."))
+      .finally(() => setPersonalSaving(false));
   };
 
   const handleSavePassword = async (e: React.FormEvent) => {
@@ -64,7 +63,15 @@ export default function AccountSettings() {
     }
 
     setPasswordSaving(true);
-    await resetPassword(newPassword);
+    try {
+      // Confirm the current password before changing it.
+      await login(email, currentPassword);
+      await resetPassword(newPassword);
+    } catch (err) {
+      setPasswordSaving(false);
+      setPasswordError(err instanceof Error && /match an account/.test(err.message) ? "Your current password is incorrect." : err instanceof Error ? err.message : "Your password couldn't be changed.");
+      return;
+    }
     setPasswordSaving(false);
     setCurrentPassword("");
     setNewPassword("");
@@ -94,7 +101,7 @@ export default function AccountSettings() {
   const handleDeleteAccount = () => {
     setShowDeleteModal(false);
     logout();
-    toast("Your account profile has been cleared for this demo.");
+    toast("You've been signed out. To close your account permanently, please contact LAYAAN Atelier.");
     navigate("/login");
   };
 
@@ -155,8 +162,11 @@ export default function AccountSettings() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="input mt-1 text-xs"
+                  readOnly
+                  aria-describedby="email-note"
                   required
                 />
+                <p id="email-note" className="mt-1 text-[0.6875rem] text-muted">Your sign-in email. Contact the atelier to change it.</p>
               </div>
 
               <div>
@@ -380,7 +390,7 @@ export default function AccountSettings() {
               </div>
               <h3 className="heading-caps !text-base text-ink">Confirm Account Deletion</h3>
               <p className="mt-2 text-xs leading-relaxed text-muted">
-                Are you sure you wish to delete your LAYAAN customer profile? This is a frontend demo interaction and will reset your locally stored profile data.
+                Are you sure you wish to delete your LAYAAN customer profile? You will be signed out; the atelier will then close your account on request (your order history is kept for our records).
               </p>
             </div>
 

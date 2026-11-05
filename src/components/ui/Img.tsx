@@ -4,6 +4,8 @@ import { IMAGE_WIDTHS } from "@/data/catalog";
 
 export interface ImgSource {
   basePath: string;
+  /** Direct URL (images uploaded through the CRM); used instead of the local derivatives. */
+  src?: string | undefined;
   width: number;
   height: number;
   alt: string;
@@ -45,10 +47,10 @@ export function Img({ image, sizes, className, imgClassName, priority, fit = "co
   return (
     <div className={clsx("relative overflow-hidden", className)} style={{ backgroundColor: image.placeholder ?? undefined, ...style }}>
       <picture>
-        <source type="image/avif" srcSet={srcSet(image.basePath, "avif")} sizes={sizes} />
-        <source type="image/webp" srcSet={srcSet(image.basePath, "webp")} sizes={sizes} />
+        {!image.src && <source type="image/avif" srcSet={srcSet(image.basePath, "avif")} sizes={sizes} />}
+        {!image.src && <source type="image/webp" srcSet={srcSet(image.basePath, "webp")} sizes={sizes} />}
         <img
-          src={`${image.basePath}-1200.jpg`}
+          src={image.src ?? `${image.basePath}-1200.jpg`}
           alt={decorative ? "" : (alt ?? image.alt)}
           width={image.width}
           height={image.height}

@@ -14,7 +14,7 @@ export default function VerifyEmail() {
   const { toast } = useUi();
   const navigate = useNavigate();
 
-  const targetEmail = emailParam || pendingVerificationEmail || customer?.email || "client@layaan-atelier.com";
+  const targetEmail = emailParam || pendingVerificationEmail || customer?.email || "";
 
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -71,7 +71,7 @@ export default function VerifyEmail() {
     }
 
     setLoading(true);
-    const success = await verifyEmail(code);
+    const success = await verifyEmail(code, targetEmail);
     setLoading(false);
 
     if (success) {
@@ -81,19 +81,15 @@ export default function VerifyEmail() {
         navigate("/account");
       }, 1400);
     } else {
-      setError("Invalid code. Please enter code '123456' for this demo.");
+      setError("That code is invalid or has expired. Check the latest email from us, or request a new code.");
     }
   };
 
   const handleResend = async () => {
     if (resendCooldown > 0) return;
-    await resendVerification();
+    const sent = await resendVerification(targetEmail);
     setResendCooldown(60);
-    toast(`Simulated verification code resent to ${targetEmail}`);
-  };
-
-  const handleFillDemo = () => {
-    setDigits(["1", "2", "3", "4", "5", "6"]);
+    toast(sent ? `A new code has been sent to ${targetEmail}` : "We couldn't send a new code right now. Please try again shortly.");
   };
 
   return (
@@ -159,15 +155,6 @@ export default function VerifyEmail() {
                   {loading ? "Verifying…" : "Confirm Verification"}
                 </Button>
 
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={handleFillDemo}
-                  className="text-xs text-gold-ink border-gold/40 hover:bg-gold-soft/10"
-                >
-                  Quick Fill Demo Code (123456)
-                </Button>
               </div>
 
               <div className="flex items-center justify-between border-t border-line/70 pt-4 text-xs">
@@ -188,7 +175,7 @@ export default function VerifyEmail() {
           )}
 
           <div className="mt-8 border-t border-line pt-4 text-[0.6875rem] text-muted">
-            <p>This is a frontend demonstration. No physical email was dispatched.</p>
+            <p>Can't find it? Check your spam folder. You can also confirm using the link in the same email.</p>
           </div>
         </Reveal>
       </div>

@@ -17,7 +17,6 @@ export function BackToTop() {
     else window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
   };
 
-  
   return (
     <AnimatePresence>
       {show && (

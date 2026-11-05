@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { GoldOrbs } from "@/components/layout/PageHeader";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "@/context/AuthContext";
+import { AuthFailure, useAuth } from "@/context/AuthContext";
 import { useUi } from "@/context/UiContext";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/misc";
 
 export default function Login() {
-  const { login, loginAsDemo } = useAuth();
+  const { login } = useAuth();
   const { toast } = useUi();
   const navigate = useNavigate();
 
@@ -37,17 +37,15 @@ export default function Login() {
       await login(email, password);
       toast("Welcome to your LAYAAN client account.");
       navigate("/account");
-    } catch {
-      setError("Unable to authenticate. Please check your credentials.");
+    } catch (err) {
+      if (err instanceof AuthFailure && err.unconfirmed) {
+        navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`);
+        return;
+      }
+      setError(err instanceof Error ? err.message : "Unable to authenticate. Please check your credentials.");
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDemoSignIn = () => {
-    loginAsDemo();
-    toast("Signed in as demo client (Amina Al-Mansoor).");
-    navigate("/account");
   };
 
   return (
@@ -137,16 +135,6 @@ export default function Login() {
               {loading ? "Authenticating…" : "Sign In"}
             </Button>
 
-            {/* Quick Demo Sign-in for client evaluation */}
-            <div className="border-t border-line/70 pt-5 text-center">
-              <button
-                type="button"
-                onClick={handleDemoSignIn}
-                className="w-full border border-gold/40 bg-gold-soft/10 py-2.5 text-xs font-semibold tracking-wider text-gold-ink uppercase transition-colors hover:bg-gold-soft/25"
-              >
-                Instant Demo Sign-In (Amina Al-Mansoor)
-              </button>
-            </div>
           </form>
 
           <div className="mt-8 border-t border-line pt-6 text-center text-xs text-muted">

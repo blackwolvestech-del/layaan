@@ -4,7 +4,6 @@ coverage/
 *.log
 *.local
 .env
-.env.*
 .DS_Store
 tests/
 

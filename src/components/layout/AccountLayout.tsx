@@ -30,7 +30,7 @@ interface AccountLayoutProps {
 export function AccountLayout({ title, eyebrow = "Client Services", tagline, crumbs, children }: AccountLayoutProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { customer, isAuthenticated, logout } = useAuth();
+  const { customer, isAuthenticated, logout, ready } = useAuth();
   const { orders } = useAccountData();
   const { itemCount } = useCart();
   const { ids: wishlistIds } = useWishlist();
@@ -51,6 +51,16 @@ export function AccountLayout({ title, eyebrow = "Client Services", tagline, cru
     logout();
     navigate("/login");
   };
+
+  if (!ready) {
+    return (
+      <div className="container-x py-24 text-center" aria-busy="true">
+        <p className="nav-caps text-muted" role="status">
+          Loading your account…
+        </p>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

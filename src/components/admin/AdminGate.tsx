@@ -41,8 +41,29 @@ function AdminSignIn() {
   );
 }
 
-/** Renders back-office content only for a signed-in administrator. */
-export function AdminGate({ children }: { children: ReactNode }) {
+const crmUrl = (import.meta.env.VITE_CRM_URL as string | undefined)?.trim().replace(/\/$/, "") || null;
+
+/**
+ * Orders, customers, measurements and stock are managed in the LAYAAN CRM, which reads the same
+ * database as this shop. The storefront's former preview back office points administrators there.
+ */
+export function AdminGate({ children: _children }: { children: ReactNode }) {
+  return (
+    <Notice title="Orders are managed in the LAYAAN CRM" className="mx-auto max-w-xl">
+      <p>Every order placed on this website appears in the CRM automatically, with the customer's details, sizes, measurements and payment status.</p>
+      {crmUrl ? (
+        <a href={`${crmUrl}/crm/orders`} className="mt-4 inline-flex min-h-10 items-center gap-2 font-semibold underline underline-offset-4">
+          Open CRM orders <Icon name="arrowRight" size={14} />
+        </a>
+      ) : (
+        <p className="mt-2 text-xs text-muted">Set VITE_CRM_URL to link to the CRM from here.</p>
+      )}
+    </Notice>
+  );
+}
+
+/** Previous access-code gate (kept for reference; no longer used by the admin routes). */
+export function LegacyAdminGate({ children }: { children: ReactNode }) {
   const signedIn = adminAuthService.use();
   if (!adminAuthService.isConfigured()) {
     return (

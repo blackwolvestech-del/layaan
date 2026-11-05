@@ -5,8 +5,6 @@ import { RouteError } from "@/components/layout/RouteError";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
 
-
-
 // Every page except the homepage is loaded on demand (route-level code splitting).
 const page = (load: () => Promise<{ default: ComponentType }>) => async () => ({ Component: (await load()).default });
 

@@ -1,4 +1,4 @@
-// Shapes the UI depends on. After approval these can be filled from API responses.
+// Shapes the UI depends on, filled from the shared Supabase catalogue (src/data/catalogStore.ts).
 import type { MeasurementProfile } from "./measurements";
 
 export type CategoryId = "suits-co-ords" | "tops-blouses" | "longline-styles";
@@ -8,6 +8,8 @@ export interface ProductImage {
   id: string;
   /** Path without width/format suffix, e.g. /images/products/<look>/<file>-<hash> */
   basePath: string;
+  /** Direct URL for images uploaded through the CRM (no local derivatives). */
+  src?: string | undefined;
   width: number;
   height: number;
   alt: string;
@@ -54,6 +56,11 @@ export interface Product {
    * (in inches) instead of a standard size. null for products sold in standard sizes.
    */
   measurementProfile: MeasurementProfile | null;
+  /** Database id of the product (Supabase `products.id`). */
+  dbId?: string;
+  /** ISO timestamp the product was created in the CRM (for "newest" sorting). */
+  createdAt?: string;
+  featured?: boolean;
 }
 
 export interface Taxonomy<T extends string> {
