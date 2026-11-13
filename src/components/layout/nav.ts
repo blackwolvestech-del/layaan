@@ -37,5 +37,4 @@ export const announcements = [
   "Contemporary Western womenswear",
   "Refined tailoring · Coordinated sets · Statement sleeves",
   "Explore the full lookbook",
-  "Preview site — ordering opens at launch",
 ];
