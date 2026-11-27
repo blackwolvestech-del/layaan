@@ -143,25 +143,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [pendingVerificationEmail, setPending] = useState<string | null>(readPending);
 
   const loadCustomer = useCallback(async () => {
-    const { data, error } = await supabase().rpc("my_customer");
+    const { data, error } = await (await supabase()).rpc("my_customer");
     setRow(error ? null : ((data as DbCustomer | null) ?? null));
   }, []);
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
-    const client = supabase();
     let live = true;
-    client.auth.getSession().then(({ data }) => {
+    let unsubscribe: (() => void) | undefined;
+    void supabase().then((client) => {
       if (!live) return;
-      setSession(data.session);
-      setReady(true);
-    });
-    const { data: sub } = client.auth.onAuthStateChange((_event, next) => {
-      if (live) setSession(next);
+      void client.auth.getSession().then(({ data }) => {
+        if (!live) return;
+        setSession(data.session);
+        setReady(true);
+      });
+      const { data: sub } = client.auth.onAuthStateChange((_event, next) => {
+        if (live) setSession(next);
+      });
+      unsubscribe = () => sub.subscription.unsubscribe();
+    }).catch((error: unknown) => {
+      console.error("[auth] Could not initialize customer session", error);
+      if (live) setReady(true);
     });
     return () => {
       live = false;
-      sub.subscription.unsubscribe();
+      unsubscribe?.();
     };
   }, []);
 
@@ -189,7 +196,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (email: string, password?: string): Promise<boolean> => {
-      const { error } = await supabase().auth.signInWithPassword({ email: email.trim(), password: password ?? "" });
+      const { error } = await (await supabase()).auth.signInWithPassword({ email: email.trim(), password: password ?? "" });
       if (error) {
         const unconfirmed = error.message.toLowerCase().includes("email not confirmed");
         if (unconfirmed) setPendingEmail(email.trim());
@@ -208,7 +215,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = useCallback(
     async (data: RegisterInput) => {
       const email = data.email.trim().toLowerCase();
-      const { data: res, error } = await supabase().auth.signUp({
+      const { data: res, error } = await (await supabase()).auth.signUp({
         email,
         password: data.password ?? "",
         options: {
@@ -229,7 +236,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (code: string, forEmail?: string): Promise<boolean> => {
       const email = forEmail?.trim() || pendingVerificationEmail;
       if (!email) return false;
-      const { error } = await supabase().auth.verifyOtp({ email, token: code.trim(), type: "signup" });
+      const { error } = await (await supabase()).auth.verifyOtp({ email, token: code.trim(), type: "signup" });
       if (error) return false;
       setPendingEmail(null);
       return true;
@@ -240,12 +247,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const resendVerification = useCallback(async (forEmail?: string): Promise<boolean> => {
     const email = forEmail?.trim() || pendingVerificationEmail;
     if (!email) return false;
-    const { error } = await supabase().auth.resend({ type: "signup", email, options: { emailRedirectTo: `${window.location.origin}/account` } });
+    const { error } = await (await supabase()).auth.resend({ type: "signup", email, options: { emailRedirectTo: `${window.location.origin}/account` } });
     return !error;
   }, [pendingVerificationEmail]);
 
   const logout = useCallback(() => {
-    void supabase().auth.signOut();
+    void supabase().then((client) => client.auth.signOut());
     setSession(null);
   }, []);
 
@@ -258,7 +265,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       if (data.phone !== undefined) input.phone = data.phone;
       if (data.address) Object.assign(input, data.address);
-      const { data: updated, error } = await supabase().rpc("update_my_customer", { p_input: input });
+      const { data: updated, error } = await (await supabase()).rpc("update_my_customer", { p_input: input });
       if (error) throw new AuthFailure(error.message);
       setRow(updated as DbCustomer);
     },
@@ -270,7 +277,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const forgotPassword = useCallback(async (email: string): Promise<boolean> => {
-    const { error } = await supabase().auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/reset-password` });
+    const { error } = await (await supabase()).auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/reset-password` });
     if (error && error.status === 429) throw new AuthFailure(authMessage(error));
     // Always report success so the form never reveals whether an account exists.
     return true;
@@ -278,7 +285,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resetPassword = useCallback(async (password: string): Promise<boolean> => {
     // Works in the recovery session opened by the reset link (or for a signed-in customer).
-    const { error } = await supabase().auth.updateUser({ password });
+    const { error } = await (await supabase()).auth.updateUser({ password });
     if (error) throw new AuthFailure(authMessage(error));
     return true;
   }, []);
