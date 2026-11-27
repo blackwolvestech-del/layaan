@@ -209,13 +209,13 @@ async function signedIn(): Promise<boolean> {
 }
 
 async function myOrders(): Promise<Order[]> {
-  const { data, error } = await supabase().rpc("my_orders");
+  const { data, error } = await (await supabase()).rpc("my_orders");
   if (error) throw new CommerceError("We couldn't load your orders. Please try again.");
   return ((data ?? []) as DbOrder[]).map(toOrder);
 }
 
 async function myOrder(id: string): Promise<Order | null> {
-  const { data, error } = await supabase().rpc("my_order", { p_number: id.replace(/^#/, "") });
+  const { data, error } = await (await supabase()).rpc("my_order", { p_number: id.replace(/^#/, "") });
   if (error) throw new CommerceError("We couldn't load this order. Please try again.");
   return data ? toOrder(data as DbOrder) : null;
 }

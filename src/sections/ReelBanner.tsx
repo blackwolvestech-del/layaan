@@ -31,7 +31,7 @@ export function ReelBanner() {
             <Img image={imageByFile("DSC09980.jpg")} sizes="25vw" className="h-full w-full" />
           </motion.div>
           <div className="aspect-[9/16] overflow-hidden">
-            <ReelPlayer className="h-full w-full" showTag={false} showControls={false} continuous src="/videos/LAYAAN%20REEL%201.mp4" />
+            <ReelPlayer className="h-full w-full" showTag={false} showControls={false} continuous />
           </div>
           <motion.div style={{ y: up }} className="aspect-[3/4] overflow-hidden">
             <Img image={imageByFile("DSC00089.jpg")} sizes="25vw" className="h-full w-full" />

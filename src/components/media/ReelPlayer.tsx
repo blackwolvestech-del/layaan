@@ -7,7 +7,7 @@ import { Icon } from "@/components/ui/Icon";
 /**
  * Campaign reel. Decorative autoplay is muted, inline and only runs while visible; it never
  * autoplays for reduced-motion users. Optional visible controls allow play/pause and sound.
- * `continuous` reels ignore all of that and keep looping without ever pausing.
+ * `continuous` reels loop while near the viewport; playback still pauses offscreen.
  */
 export function ReelPlayer({ className, label = "LAYAAN Atelier campaign reel", showTag = true, showControls = true, continuous = false, src }: { className?: string; label?: string; showTag?: boolean; showControls?: boolean; continuous?: boolean; src?: string }) {
   const reel = catalog.reel;
@@ -20,31 +20,24 @@ export function ReelPlayer({ className, label = "LAYAAN Atelier campaign reel", 
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    const video = ref.current;
-    if (!continuous || !video) return;
-    const resume = () => void video.play().catch(() => undefined);
-    resume();
-    video.addEventListener("pause", resume);
-    document.addEventListener("visibilitychange", resume);
-    return () => {
-      video.removeEventListener("pause", resume);
-      document.removeEventListener("visibilitychange", resume);
-    };
-  }, [continuous]);
-
-  useEffect(() => {
     const el = wrapRef.current;
     const video = ref.current;
-    if (continuous || !el || !video || reduce || userPaused) return;
+    if (!el || !video || reduce || userPaused) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) void video.play().catch(() => setPlaying(false));
+        if (entry?.isIntersecting && !document.hidden) void video.play().catch(() => setPlaying(false));
         else video.pause();
       },
-      { threshold: 0.35 },
+      // Start fetching shortly before the campaign reel enters view; don't download it at page load.
+      { threshold: 0.15, rootMargin: "240px 0px" },
     );
     io.observe(el);
-    const onVis = () => document.hidden && video.pause();
+    const onVis = () => {
+      if (document.hidden) video.pause();
+      else if (el.getBoundingClientRect().top < window.innerHeight + 240 && el.getBoundingClientRect().bottom > -240) {
+        void video.play().catch(() => setPlaying(false));
+      }
+    };
     document.addEventListener("visibilitychange", onVis);
     return () => {
       io.disconnect();
@@ -78,8 +71,8 @@ export function ReelPlayer({ className, label = "LAYAAN Atelier campaign reel", 
           muted={muted}
           playsInline
           loop
-          autoPlay={continuous}
-          preload={continuous ? "auto" : "none"}
+          autoPlay={false}
+          preload="none"
           aria-label={label}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}

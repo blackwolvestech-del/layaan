@@ -24,10 +24,31 @@ export function Hero() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [progressKey, setProgressKey] = useState(0);
+  const [videoReady, setVideoReady] = useState(false);
   const first = useRef(true);
   // On the first visit the intro curtain covers the hero; start its entrance as the curtain opens.
   const [introDelay] = useState(() => (introPending() ? 1.75 : 0));
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Keep the LCP frame immediately available, then start the compressed decorative video once
+  // the browser has rendered the hero. Reduced-motion users and hidden/background tabs stay still.
+  useEffect(() => {
+    if (reduce || document.hidden) return;
+    const desktop = window.matchMedia("(min-width: 768px)");
+    if (!desktop.matches) return;
+    let idleId: number | undefined;
+    const timer = window.setTimeout(() => {
+      if ("requestIdleCallback" in window) {
+        idleId = window.requestIdleCallback(() => setVideoReady(true), { timeout: 1800 });
+      } else {
+        setVideoReady(true);
+      }
+    }, 900);
+    return () => {
+      window.clearTimeout(timer);
+      if (idleId !== undefined && "cancelIdleCallback" in window) window.cancelIdleCallback(idleId);
+    };
+  }, [reduce]);
 
   // Mouse parallax: side panels drift against the cursor, the reel and copy with it.
   const mx = useMotionValue(0);
@@ -126,7 +147,8 @@ export function Hero() {
                     animate={{ scale: 1 }}
                     transition={{ duration: reduce ? 0 : 7.5, ease: "linear", delay: side === "right" ? 0.15 : 0 }}
                   >
-                    <Img image={img} priority={index === 0} sizes="34vw" className="h-full w-full" decorative />
+                    {/* Hidden at mobile widths; lazy loading prevents downloading these hidden hero photos. */}
+                    <Img image={img} sizes="(min-width: 768px) 34vw, 1px" className="h-full w-full" decorative />
                   </motion.div>
                 </motion.div>
               </AnimatePresence>
@@ -136,8 +158,8 @@ export function Hero() {
         })}
         <div className="relative overflow-hidden md:col-start-2 md:row-start-1">
           {reel && (
-            <motion.video style={{ x: midX }} className="absolute -inset-x-4 inset-y-0 h-full w-[calc(100%+2rem)] max-w-none object-cover" poster={reel.poster} autoPlay={!reduce} muted loop playsInline preload="auto" aria-hidden>
-              <source src="/videos/hero.mp4" type="video/mp4" />
+            <motion.video style={{ x: midX }} className="absolute -inset-x-4 inset-y-0 h-full w-[calc(100%+2rem)] max-w-none object-cover" poster="/videos/hero-poster.webp" autoPlay={videoReady} muted loop playsInline preload="none" aria-hidden>
+              {videoReady && <source src="/videos/hero.mp4" type="video/mp4" />}
             </motion.video>
           )}
         </div>

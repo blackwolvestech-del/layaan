@@ -55,8 +55,8 @@ export function Preloader() {
           <motion.div className="absolute inset-0 flex flex-col items-center justify-center gap-8" exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.35 } }}>
             <div className="relative">
               {/* Dim outline of the logo, then the full-gold logo rising through it. */}
-              <img src={brandAssets.logoPng} alt="" className="h-14 w-auto opacity-15 sm:h-20" />
-              <motion.img src={brandAssets.logoPng} alt="" className="absolute inset-0 h-14 w-auto sm:h-20" style={{ clipPath: reveal }} />
+              <img src={brandAssets.logoWebp} alt="" className="h-14 w-auto opacity-15 sm:h-20" />
+              <motion.img src={brandAssets.logoWebp} alt="" className="absolute inset-0 h-14 w-auto sm:h-20" style={{ clipPath: reveal }} />
             </div>
             <div className="flex w-56 items-center gap-4">
               <div className="relative h-px flex-1 overflow-hidden bg-white/15">

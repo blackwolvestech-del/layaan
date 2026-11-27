@@ -7,7 +7,7 @@
 // regains focus, and single products are refreshed on their product page and at checkout, so
 // stock changes made in the CRM show up without a reload.
 import { useSyncExternalStore } from "react";
-import { isSupabaseConfigured, supabase, supabaseUrl } from "@/lib/supabase";
+import { isSupabaseConfigured, publicRpc, supabaseUrl } from "@/lib/supabase";
 import type { Money, ProductOffer, SizeId, VariantOffer } from "@/types/commerce";
 import type { MeasurementProfile } from "@/types/measurements";
 import type { CategoryId, CollectionId, Product, ProductImage, ProductSizeChart } from "@/types/product";
@@ -242,10 +242,15 @@ export class CatalogUnavailableError extends Error {
 
 async function fetchAll(): Promise<{ rows: DbProduct[]; settings: StoreSettings | null }> {
   if (!isSupabaseConfigured) throw new CatalogUnavailableError("The shop is not connected to its database yet (missing Supabase settings).");
-  const db = supabase();
-  const [cat, set] = await Promise.all([db.rpc("storefront_catalog"), db.rpc("storefront_settings")]);
-  if (cat.error) throw new CatalogUnavailableError(cat.error.message);
-  return { rows: (cat.data ?? []) as DbProduct[], settings: set.error ? null : (set.data as StoreSettings | null) };
+  try {
+    const [rows, settings] = await Promise.all([
+      publicRpc<DbProduct[]>("storefront_catalog"),
+      publicRpc<StoreSettings>("storefront_settings"),
+    ]);
+    return { rows: rows ?? [], settings: settings ?? null };
+  } catch (error) {
+    throw new CatalogUnavailableError(error instanceof Error ? error.message : "Catalogue request failed.");
+  }
 }
 
 let inflight: Promise<void> | null = null;
@@ -263,9 +268,12 @@ export function loadCatalog(): Promise<void> {
 /** Re-reads one product (stock, price, photos) straight from the database. */
 export async function refreshProduct(key: string): Promise<void> {
   if (!isSupabaseConfigured) return;
-  const { data, error } = await supabase().rpc("storefront_product", { p_key: key });
-  if (error) return;
-  upsertProduct(key, (data as DbProduct | null) ?? null);
+  try {
+    const data = await publicRpc<DbProduct | null>("storefront_product", { p_key: key });
+    upsertProduct(key, data ?? null);
+  } catch {
+    // Keep the last known catalogue if a background refresh fails; checkout revalidates server-side.
+  }
 }
 
 /** Refreshes products in the bag before checkout, so availability is current. */
